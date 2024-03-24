@@ -3,7 +3,7 @@ import Joi from "joi"
 const createUserSchema = Joi.object({
   name: Joi.string().required().min(3).max(30),
   email: Joi.string().email().required(),
-  password: Joi.string().required().min(3).max(12),
+  password: Joi.string().required().min(3).max(50),
   img: Joi.string().optional(),
 });
 
@@ -11,7 +11,7 @@ const createUserSchema = Joi.object({
 const updateUserSchema = Joi.object({
   name: Joi.string().min(3).max(30).optional(),
   email: Joi.string().email().optional(),
-  password: Joi.string().min(6).max(50).optional(),
+  password: Joi.string().min(3).max(50).optional(),
   img: Joi.string().optional(),
 }).or('name', 'email', 'password', 'img'); 
 
