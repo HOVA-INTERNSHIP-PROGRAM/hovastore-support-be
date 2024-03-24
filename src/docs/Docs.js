@@ -24,7 +24,7 @@ const options = {
         }
     ],
     paths: {
-        "/api/user/create": {
+        "/api/users": {
             post: {
                 tags: ["Users"],
                 summary: "Create User",
@@ -73,7 +73,7 @@ const options = {
                 },
             },
         },
-        "/api/user/auth": {
+        "/api/users/auth": {
             post: {
                 tags: ["Users"],
                 summary: "User Login",
@@ -115,7 +115,7 @@ const options = {
                 },
             },
         },
-        "/api/user/auth/logout": {
+        "/api/users/auth/logout": {
             post: {
                 tags: ["Logout"],
                 description: "logging out a user",
@@ -140,7 +140,7 @@ const options = {
                 },
             },
         },
-        "/api/user/read": {
+        "/api/users": {
             get: {
                 tags: ["Users"],
                 summary: "Get All Users",
@@ -160,7 +160,7 @@ const options = {
                 },
             },
         },
-        "/api/user/read/{id}": {
+        "/api/users/{id}": {
             get: {
                 tags: ["Users"],
                 summary: "Read User By ID",
@@ -195,7 +195,7 @@ const options = {
                 },
             },
         },
-        "/api/user/update/{id}": {
+        "/api/users/{id}": {
             put: {
                 tags: ["Users"],
                 summary: "Update an existing User",
@@ -255,7 +255,7 @@ const options = {
                 },
             },
         },
-        "/api/user/delete/{id}": {
+        "/api/users/{id}": {
             delete: {
                 tags: ["Users"],
                 summary: "Delete a user post",
