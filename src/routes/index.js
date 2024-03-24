@@ -9,7 +9,7 @@ const router = express.Router();
 
 
 router.use("/docs", docrouter);
-router.use("/user", userRoute)
+router.use("/users", userRoute)
 
 
 export default router;
