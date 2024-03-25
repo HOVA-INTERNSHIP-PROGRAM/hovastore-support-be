@@ -3,6 +3,7 @@ import { serve, setup } from "swagger-ui-express";
 
 const docrouter = express.Router();
 
+
 const options = {
     openapi: "3.0.1",
     info: {
@@ -27,24 +28,17 @@ const options = {
         }
     ],
     paths: {
-        "/api/v1/users": {
-            get: {
-                tags: ["Users"],
-                summary: "Get All Users",
-                description: "Get all users",
-                responses: {
-                    200: {
-                        description: "All User Posts retrieved successfully",
-                    },
-                    500: {
-                        description: "Internal Server Error",
-                    },
-                },
-            },
+        "/api/user/create": {
             post: {
                 tags: ["Users"],
                 summary: "Create User",
                 description: "Create a new user",
+                security: [
+                    {
+                        bearerAuth: [],
+                    },
+                ],
+                parameters: [],
                 requestBody: {
                     content: {
                         "multipart/form-data": {
@@ -83,22 +77,26 @@ const options = {
                 },
             },
         },
-        "/api/v1/users/auth": {
+        "/api/user/auth": {
             post: {
                 tags: ["Users"],
                 summary: "User Login",
-                description: "User login",
+                description: "User Login ",
+                security: [
+                    {
+                        bearerAuth: [],
+                    },
+                ],
+                parameters: [],
                 requestBody: {
                     content: {
                         "multipart/form-data": {
                             schema: {
                                 type: "object",
                                 properties: {
-
                                     email: {
                                         type: "string",
                                     },
-
                                     password: {
                                         type: "string",
                                     },
@@ -109,7 +107,7 @@ const options = {
                     required: true,
                 },
                 responses: {
-                    200: {
+                    201: {
                         description: "User was logged in successfully",
                     },
                     400: {
@@ -121,44 +119,105 @@ const options = {
                 },
             },
         },
-        "/api/v1/users/{id}": {
-            get: {
-                tags: ["Users"],
-                summary: "Read User By ID",
-                description: "Get a user by ID",
-                parameters: [
+        "/api/user/auth/logout": {
+            post: {
+                tags: ["Logout"],
+                description: "logging out a user",
+                summary: "logging out a user",
+                security: [
                     {
-                        name: "id",
-                        in: "path",
-                        required: true,
-                        schema: {
-                            type: "string",
-                        },
+                        bearerAuth: [], 
                     },
                 ],
+                parameters: [],
+                required: true,
                 responses: {
                     200: {
-                        description: "User retrieved successfully",
+                        description: "User successfully logged out",
                     },
-                    404: {
-                        description: "User not found",
+                    401: {
+                        description: "Unauthorized: User not logged in",
                     },
                     500: {
                         description: "Internal Server Error",
                     },
                 },
             },
-            put: {
+        },
+        "/api/user/read": {
+            get: {
                 tags: ["Users"],
-                summary: "Update User",
-                description: "Update an existing user",
+                summary: "Get All Users",
+                description: "Get all User posts",
+                security: [
+                    {
+                        bearerAuth: [], 
+                    },
+                ],
+                responses: {
+                    200: {
+                        description: "All User Posts retrieved successfully",
+                    },
+                    500: {
+                        description: "Internal Server Error",
+                    },
+                },
+            },
+        },
+        "/api/user/read/{id}": {
+            get: {
+                tags: ["Users"],
+                summary: "Read User By ID",
+                description: "Get a User post by ID",
                 parameters: [
                     {
                         name: "id",
                         in: "path",
                         required: true,
+                        description: "ID of the User",
                         schema: {
                             type: "string",
+                            pattern: "^[0-9a-fA-F]{24}$",
+                        },
+                    },
+                ],
+                security: [
+                    {
+                        bearerAuth: [], 
+                    },
+                ],
+                responses: {
+                    200: {
+                        description: "User Post retrieved successfully",
+                    },
+                    404: {
+                        description: "User Post not found",
+                    },
+                    500: {
+                        description: "Internal Server Error",
+                    },
+                },
+            },
+        },
+        "/api/user/update/{id}": {
+            put: {
+                tags: ["Users"],
+                summary: "Update an existing User",
+                description: "Update User",
+                security: [
+                    {
+                        bearerAuth: [], 
+                    },
+                ],
+                parameters: [
+                    {
+                        name: "id",
+                        in: "path",
+                        required: true,
+                        description: "ID of the User",
+                        schema: {
+                            type: "string",
+                            pattern: "^[0-9a-fA-F]{24}$",
                         },
                     },
                 ],
@@ -189,23 +248,27 @@ const options = {
                 },
                 responses: {
                     200: {
-                        description: "User updated successfully",
+                        description: "User Applicant was updated successfully",
                     },
                     400: {
                         description: "Bad Request",
-                    },
-                    404: {
-                        description: "User not found",
                     },
                     500: {
                         description: "Internal Server Error",
                     },
                 },
             },
+        },
+        "/api/user/delete/{id}": {
             delete: {
                 tags: ["Users"],
-                summary: "Delete User",
-                description: "Delete a user by ID",
+                summary: "Delete a user post",
+                description: "Delete an existing user post by its ID.",
+                security: [
+                    {
+                        bearerAuth: [],
+                    },
+                ],
                 parameters: [
                     {
                         name: "id",
@@ -213,21 +276,26 @@ const options = {
                         required: true,
                         schema: {
                             type: "string",
+                            pattern: "^[0-9a-fA-F]{24}$",
                         },
+                        description: "Unique identifier of the user post to be deleted",
                     },
                 ],
                 responses: {
                     200: {
-                        description: "User deleted successfully",
+                        description: "user post deleted successfully",
                     },
                     400: {
-                        description: "Bad Request",
+                        description: "Bad request",
+                    },
+                    401: {
+                        description: "Unauthorized",
                     },
                     404: {
-                        description: "User not found",
+                        description: "Blog post not found",
                     },
                     500: {
-                        description: "Internal Server Error",
+                        description: "Internal server error",
                     },
                 },
             },
@@ -395,6 +463,8 @@ const options = {
                 type: "http",
                 scheme: "bearer",
                 bearerFormat: "JWT",
+                in: "header",
+                name: "Authorization",
             },
         },
     },
