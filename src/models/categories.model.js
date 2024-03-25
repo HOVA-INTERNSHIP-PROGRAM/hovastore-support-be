@@ -11,6 +11,9 @@ const categorySchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    questions: [{
+      type: mongoose.Schema.ObjectId, ref:"questions",
+    }],
   },
   {
     timestamps: true,
