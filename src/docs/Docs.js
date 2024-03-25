@@ -20,6 +20,10 @@ const options = {
         {
             name: "Users",
             description: "Operations related to Users entities",
+        },
+        {
+            name: "Categories",
+            description: "Operations related to Categories entities",
         }
     ],
     paths: {
@@ -221,6 +225,162 @@ const options = {
                     },
                     404: {
                         description: "User not found",
+                    },
+                    500: {
+                        description: "Internal Server Error",
+                    },
+                },
+            },
+        },
+
+
+        "/api/v1/categories": {
+            get: {
+                tags: ["Categories"],
+                summary: "Get All Categories",
+                description: "Get all Categories",
+                responses: {
+                    200: {
+                        description: "All Categories are retrieved successfully",
+                    },
+                    500: {
+                        description: "Internal Server Error",
+                    },
+                },
+            },
+            post: {
+                tags: ["Categories"],
+                summary: "Create Categories",
+                description: "Create a new Categories",
+                requestBody: {
+                    content: {
+                        "multipart/form-data": {
+                            schema: {
+                                type: "object",
+                                properties: {
+                                    name: {
+                                        type: "string",
+                                    },
+                                    description: {
+                                        type: "string",
+                                    },
+                                   
+                                },
+                            },
+                        },
+                    },
+                    required: true,
+                },
+                responses: {
+                    201: {
+                        description: "New Category created successfully",
+                    },
+                    400: {
+                        description: "Bad Request",
+                    },
+                    500: {
+                        description: "Internal Server Error",
+                    },
+                },
+            },
+        },
+        "/api/v1/categories/{id}": {
+            get: {
+                tags: ["Categories"],
+                summary: "Read Category By ID",
+                description: "Get a Category by ID",
+                parameters: [
+                    {
+                        name: "id",
+                        in: "path",
+                        required: true,
+                        schema: {
+                            type: "string",
+                        },
+                    },
+                ],
+                responses: {
+                    200: {
+                        description: "Category retrieved successfully",
+                    },
+                    404: {
+                        description: "Category not found",
+                    },
+                    500: {
+                        description: "Internal Server Error",
+                    },
+                },
+            },
+            put: {
+                tags: ["Categories"],
+                summary: "Update Category",
+                description: "Update an existing Category",
+                parameters: [
+                    {
+                        name: "id",
+                        in: "path",
+                        required: true,
+                        schema: {
+                            type: "string",
+                        },
+                    },
+                ],
+                requestBody: {
+                    content: {
+                        "multipart/form-data": {
+                            schema: {
+                                type: "object",
+                                properties: {
+                                    name: {
+                                        type: "string",
+                                    },
+                                    description: {
+                                        type: "string",
+                                    },
+                                },
+                            },
+                        },
+                    },
+                    required: true,
+                },
+                responses: {
+                    200: {
+                        description: "Category updated successfully",
+                    },
+                    400: {
+                        description: "Bad Request",
+                    },
+                    404: {
+                        description: "Category not found",
+                    },
+                    500: {
+                        description: "Internal Server Error",
+                    },
+                },
+            },
+            delete: {
+                tags: ["Categories"],
+                summary: "Delete Category",
+                description: "Delete a Category by ID",
+                parameters: [
+                    {
+                        name: "id",
+                        in: "path",
+                        required: true,
+                        schema: {
+                            type: "string",
+                        },
+                    },
+                ],
+                responses: {
+                    200: {
+                        description: "Category deleted successfully",
+                    },
+                    400: {
+                        description: "Bad Request",
+                    },
+                    404: {
+                        description: "Category not found",
                     },
                     500: {
                         description: "Internal Server Error",
