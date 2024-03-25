@@ -13,7 +13,6 @@ export const createCategory = async (req, res) => {
       message: error.details[0].message,
     });
   }
-  console.log("Values", value);
   try {
     // checking if category already exits
     const { name } = req.body;
