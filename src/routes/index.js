@@ -6,7 +6,7 @@ import categoryRoute from "./category.routes";
 
 const router = express.Router();
 
-// Routes
+// Route
 
 
 router.use("/docs", docrouter);
