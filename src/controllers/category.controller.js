@@ -89,7 +89,7 @@ export const getOneCategory = async (req, res) => {
 
 // controller to update category by id
 export const updateCategory = async (req, res) => {
-  const { error, values } = validateUpdateCategory(req.body);
+  const { error, value } = validateUpdateCategory(req.body);
   if (error) {
     return res.status(400).json({
       message: error.details[0].message,
@@ -97,8 +97,15 @@ export const updateCategory = async (req, res) => {
   }
   try {
     const { id } = req.params;
-    await categoryService.updateCategory(id, values);
-    res.status(201).json({
+    const findId = await Category.findById(id);
+    if (!findId) {
+      return res.status(404).json({
+        status: "404",
+        message: "Category not found",
+      });
+    }
+    await categoryService.updateCategory(id, value);
+    return res.status(201).json({
       status: "201",
       message: "Category information Updated",
     });
@@ -115,6 +122,13 @@ export const updateCategory = async (req, res) => {
 export const deleteCategory = async (req, res) => {
   try {
     const { id } = req.params;
+    const findId = await Category.findById(id);
+    if (!findId) {
+      return res.status(404).json({
+        status: "404",
+        message: "Category not found",
+      });
+    }
     await categoryService.deleteCategory(id);
     return res.status(200).json({
       status: "200",
