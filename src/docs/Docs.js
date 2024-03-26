@@ -25,20 +25,31 @@ const options = {
         {
             name: "Categories",
             description: "Operations related to Categories entities",
+        },
+        {
+            name: "Question",
+            description: "Operations related to question entities",
         }
     ],
     paths: {
-        "/api/user/create": {
+        "/api/v1/users": {
+            get: {
+                tags: ["Users"],
+                summary: "Get All Users",
+                description: "Get all users",
+                responses: {
+                    200: {
+                        description: "All User Posts retrieved successfully",
+                    },
+                    500: {
+                        description: "Internal Server Error",
+                    },
+                },
+            },
             post: {
                 tags: ["Users"],
                 summary: "Create User",
                 description: "Create a new user",
-                security: [
-                    {
-                        bearerAuth: [],
-                    },
-                ],
-                parameters: [],
                 requestBody: {
                     content: {
                         "multipart/form-data": {
@@ -77,26 +88,22 @@ const options = {
                 },
             },
         },
-        "/api/user/auth": {
+        "/api/v1/users/auth": {
             post: {
                 tags: ["Users"],
                 summary: "User Login",
-                description: "User Login ",
-                security: [
-                    {
-                        bearerAuth: [],
-                    },
-                ],
-                parameters: [],
+                description: "User login",
                 requestBody: {
                     content: {
                         "multipart/form-data": {
                             schema: {
                                 type: "object",
                                 properties: {
+
                                     email: {
                                         type: "string",
                                     },
+
                                     password: {
                                         type: "string",
                                     },
@@ -107,7 +114,7 @@ const options = {
                     required: true,
                 },
                 responses: {
-                    201: {
+                    200: {
                         description: "User was logged in successfully",
                     },
                     400: {
@@ -119,105 +126,44 @@ const options = {
                 },
             },
         },
-        "/api/user/auth/logout": {
-            post: {
-                tags: ["Logout"],
-                description: "logging out a user",
-                summary: "logging out a user",
-                security: [
-                    {
-                        bearerAuth: [], 
-                    },
-                ],
-                parameters: [],
-                required: true,
-                responses: {
-                    200: {
-                        description: "User successfully logged out",
-                    },
-                    401: {
-                        description: "Unauthorized: User not logged in",
-                    },
-                    500: {
-                        description: "Internal Server Error",
-                    },
-                },
-            },
-        },
-        "/api/user/read": {
-            get: {
-                tags: ["Users"],
-                summary: "Get All Users",
-                description: "Get all User posts",
-                security: [
-                    {
-                        bearerAuth: [], 
-                    },
-                ],
-                responses: {
-                    200: {
-                        description: "All User Posts retrieved successfully",
-                    },
-                    500: {
-                        description: "Internal Server Error",
-                    },
-                },
-            },
-        },
-        "/api/user/read/{id}": {
+        "/api/v1/users/{id}": {
             get: {
                 tags: ["Users"],
                 summary: "Read User By ID",
-                description: "Get a User post by ID",
+                description: "Get a user by ID",
                 parameters: [
                     {
                         name: "id",
                         in: "path",
                         required: true,
-                        description: "ID of the User",
                         schema: {
                             type: "string",
-                            pattern: "^[0-9a-fA-F]{24}$",
                         },
-                    },
-                ],
-                security: [
-                    {
-                        bearerAuth: [], 
                     },
                 ],
                 responses: {
                     200: {
-                        description: "User Post retrieved successfully",
+                        description: "User retrieved successfully",
                     },
                     404: {
-                        description: "User Post not found",
+                        description: "User not found",
                     },
                     500: {
                         description: "Internal Server Error",
                     },
                 },
             },
-        },
-        "/api/user/update/{id}": {
             put: {
                 tags: ["Users"],
-                summary: "Update an existing User",
-                description: "Update User",
-                security: [
-                    {
-                        bearerAuth: [], 
-                    },
-                ],
+                summary: "Update User",
+                description: "Update an existing user",
                 parameters: [
                     {
                         name: "id",
                         in: "path",
                         required: true,
-                        description: "ID of the User",
                         schema: {
                             type: "string",
-                            pattern: "^[0-9a-fA-F]{24}$",
                         },
                     },
                 ],
@@ -248,27 +194,23 @@ const options = {
                 },
                 responses: {
                     200: {
-                        description: "User Applicant was updated successfully",
+                        description: "User updated successfully",
                     },
                     400: {
                         description: "Bad Request",
+                    },
+                    404: {
+                        description: "User not found",
                     },
                     500: {
                         description: "Internal Server Error",
                     },
                 },
             },
-        },
-        "/api/user/delete/{id}": {
             delete: {
                 tags: ["Users"],
-                summary: "Delete a user post",
-                description: "Delete an existing user post by its ID.",
-                security: [
-                    {
-                        bearerAuth: [],
-                    },
-                ],
+                summary: "Delete User",
+                description: "Delete a user by ID",
                 parameters: [
                     {
                         name: "id",
@@ -276,26 +218,21 @@ const options = {
                         required: true,
                         schema: {
                             type: "string",
-                            pattern: "^[0-9a-fA-F]{24}$",
                         },
-                        description: "Unique identifier of the user post to be deleted",
                     },
                 ],
                 responses: {
                     200: {
-                        description: "user post deleted successfully",
+                        description: "User deleted successfully",
                     },
                     400: {
-                        description: "Bad request",
-                    },
-                    401: {
-                        description: "Unauthorized",
+                        description: "Bad Request",
                     },
                     404: {
-                        description: "Blog post not found",
+                        description: "User not found",
                     },
                     500: {
-                        description: "Internal server error",
+                        description: "Internal Server Error",
                     },
                 },
             },
@@ -456,7 +393,180 @@ const options = {
                 },
             },
         },
+        //Question side
+        "/api/v1/questions/{id}": {
+            post: {
+                tags: ["Question"],
+                summary: "Create Question",
+                description: "Category ID to create a new Question",
+                parameters: [
+                    {
+                        name: "id",
+                        in: "path",
+                        required: true,
+                        schema: {
+                            type: "string",
+                        },
+                    },
+                ],
+                requestBody: {
+                    content: {
+                        "multipart/form-data": {
+                            schema: {
+                                type: "object",
+                                properties: {
+                                    questionPhrase: {
+                                        type: "string",
+                                    },
+                                   
+                                },
+                            },
+                        },
+                    },
+                    required: true,
+                },
+                responses: {
+                    201: {
+                        description: "Question added",
+                    },
+                    400: {
+                        description: "Bad Request",
+                    },
+                    500: {
+                        description: "Internal Server Error",
+                    },
+                },
+            },
+            put: {
+                tags: ["Question"],
+                summary: "Update Question",
+                description: "Question ID to update question",
+                parameters: [
+                    {
+                        name: "id",
+                        in: "path",
+                        required: true,
+                        schema: {
+                            type: "string",
+                        },
+                    },
+                ],
+                requestBody: {
+                    content: {
+                        "multipart/form-data": {
+                            schema: {
+                                type: "object",
+                                properties: {
+                                    questionPhrase: {
+                                        type: "string",
+                                    },
+                                },
+                            },
+                        },
+                    },
+                    required: true,
+                },
+                responses: {
+                    200: {
+                        description: "Question updated",
+                    },
+                    400: {
+                        description: "Bad Request",
+                    },
+                    404: {
+                        description: "Question not found",
+                    },
+                    500: {
+                        description: "Internal Server Error",
+                    },
+                },
+            },
+            delete: {
+                tags: ["Question"],
+                summary: "Delete Question",
+                description: "Question ID to be deleted",
+                parameters: [
+                    {
+                        name: "id",
+                        in: "path",
+                        required: true,
+                        schema: {
+                            type: "string",
+                        },
+                    },
+                ],
+                responses: {
+                    200: {
+                        description: "Question deleted",
+                    },
+                    400: {
+                        description: "Bad Request",
+                    },
+                    404: {
+                        description: "Question not found",
+                    },
+                    500: {
+                        description: "Internal Server Error",
+                    },
+                },
+            },
+        },
+        "/api/v1/questions/read/{id}": {
+            get: {
+                tags: ["Question"],
+                summary: "Get all Questions for category you want",
+                description: "Enter category ID to view all questions",
+                parameters: [
+                    {
+                        name: "id",
+                        in: "path",
+                        required: true,
+                        schema: {
+                            type: "string",
+                        },
+                    },
+                ],
+                responses: {
+                    200: {
+                        description: "Question retrieved",
+                    },
+                    500: {
+                        description: "Internal Server Error",
+                    },
+                },
+            },
+        },
+        "/api/v1/questions/readOne/{id}": {
+            get: {
+                tags: ["Question"],
+                summary: "Read Question by ID",
+                description: "Enter ID to view question details.",
+                parameters: [
+                    {
+                        name: "id",
+                        in: "path",
+                        required: true,
+                        schema: {
+                            type: "string",
+                        },
+                    },
+                ],
+                responses: {
+                    200: {
+                        description: "Question retrieved",
+                    },
+                    404: {
+                        description: "Question not found",
+                    },
+                    500: {
+                        description: "Internal Server Error",
+                    },
+                },
+            },
+        },
+        
     },
+    
     components: {
         securitySchemes: {
             bearerAuth: {

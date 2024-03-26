@@ -11,7 +11,7 @@ export const createAQuestion = async (req, res) => {
         });
     }
     const { id } = req.params;
-    const { questionPrase } = req.body;
+    const { questionPhrase } = req.body;
     const checkCategory = await Category.findById(id);
     if (!checkCategory) {
         return res.status(404).json({
@@ -19,10 +19,10 @@ export const createAQuestion = async (req, res) => {
             message: "Category not found",
         });
     }
-    const checkQuestin = await Questions.findOne({ questionPrase: questionPrase });
-
+    const checkQuestin = await Questions.findOne({ questionPhrase: questionPhrase });
+    console.log(checkQuestin)
     if (checkQuestin) {
-        if(checkQuestin.categoryId === id){
+        if(checkQuestin.categoryId == id){
       return res.status(400).json({
         status: "400",
         message: "Question already exist",
@@ -60,6 +60,25 @@ export const createAQuestion = async (req, res) => {
     }
     try {
         const {id} = req.params;
+        const {questionPhrase} = req.body;
+        const checkQuestin = await Questions.findOne({ questionPhrase: questionPhrase });
+
+    if (checkQuestin) {
+        if(checkQuestin._id != id){
+      return res.status(400).json({
+        status: "400",
+        message: "Question already exist",
+       });
+        }
+    }
+        const checkQuestions = await Questions.findById(id);
+        if(!checkQuestions){
+            return res.status(404).json({
+                status:"404",
+                message:"Question not found"
+            });
+        }
+        
         await QuestionService.updateExistQuestion(id, value);
         return res.status(200).json({
             status:"200",
