@@ -20,7 +20,6 @@ export const createAQuestion = async (req, res) => {
         });
     }
     const checkQuestin = await Questions.findOne({ questionPhrase: questionPhrase });
-    console.log(checkQuestin)
     if (checkQuestin) {
         if(checkQuestin.categoryId == id){
       return res.status(400).json({
