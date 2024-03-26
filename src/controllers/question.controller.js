@@ -124,7 +124,7 @@ export const createAQuestion = async (req, res) => {
     try {
         const {id} =req.params;
         const getOne = await QuestionService.findSingleQuestion(id)
-        // .populate("answers", "answeringStep answerImage answeredOn");
+        .then((question) => question.populate("answers", "step stepImage stepDescription createdAt"));
         if(!getOne){
             return res.status(404).json({
                 status:"404",
