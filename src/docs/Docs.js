@@ -3,6 +3,7 @@ import { serve, setup } from "swagger-ui-express";
 
 const docrouter = express.Router();
 
+
 const options = {
     openapi: "3.0.1",
     info: {
@@ -24,6 +25,10 @@ const options = {
         {
             name: "Categories",
             description: "Operations related to Categories entities",
+        },
+        {
+            name: "Question",
+            description: "Operations related to question entities",
         }
     ],
     paths: {
@@ -388,13 +393,188 @@ const options = {
                 },
             },
         },
+        //Question side
+        "/api/v1/questions/{id}": {
+            post: {
+                tags: ["Question"],
+                summary: "Create Question",
+                description: "Category ID to create a new Question",
+                parameters: [
+                    {
+                        name: "id",
+                        in: "path",
+                        required: true,
+                        schema: {
+                            type: "string",
+                        },
+                    },
+                ],
+                requestBody: {
+                    content: {
+                        "multipart/form-data": {
+                            schema: {
+                                type: "object",
+                                properties: {
+                                    questionPhrase: {
+                                        type: "string",
+                                    },
+                                   
+                                },
+                            },
+                        },
+                    },
+                    required: true,
+                },
+                responses: {
+                    201: {
+                        description: "Question added",
+                    },
+                    400: {
+                        description: "Bad Request",
+                    },
+                    500: {
+                        description: "Internal Server Error",
+                    },
+                },
+            },
+            put: {
+                tags: ["Question"],
+                summary: "Update Question",
+                description: "Question ID to update question",
+                parameters: [
+                    {
+                        name: "id",
+                        in: "path",
+                        required: true,
+                        schema: {
+                            type: "string",
+                        },
+                    },
+                ],
+                requestBody: {
+                    content: {
+                        "multipart/form-data": {
+                            schema: {
+                                type: "object",
+                                properties: {
+                                    questionPhrase: {
+                                        type: "string",
+                                    },
+                                },
+                            },
+                        },
+                    },
+                    required: true,
+                },
+                responses: {
+                    200: {
+                        description: "Question updated",
+                    },
+                    400: {
+                        description: "Bad Request",
+                    },
+                    404: {
+                        description: "Question not found",
+                    },
+                    500: {
+                        description: "Internal Server Error",
+                    },
+                },
+            },
+            delete: {
+                tags: ["Question"],
+                summary: "Delete Question",
+                description: "Question ID to be deleted",
+                parameters: [
+                    {
+                        name: "id",
+                        in: "path",
+                        required: true,
+                        schema: {
+                            type: "string",
+                        },
+                    },
+                ],
+                responses: {
+                    200: {
+                        description: "Question deleted",
+                    },
+                    400: {
+                        description: "Bad Request",
+                    },
+                    404: {
+                        description: "Question not found",
+                    },
+                    500: {
+                        description: "Internal Server Error",
+                    },
+                },
+            },
+        },
+        "/api/v1/questions/read/{id}": {
+            get: {
+                tags: ["Question"],
+                summary: "Get all Questions for category you want",
+                description: "Enter category ID to view all questions",
+                parameters: [
+                    {
+                        name: "id",
+                        in: "path",
+                        required: true,
+                        schema: {
+                            type: "string",
+                        },
+                    },
+                ],
+                responses: {
+                    200: {
+                        description: "Question retrieved",
+                    },
+                    500: {
+                        description: "Internal Server Error",
+                    },
+                },
+            },
+        },
+        "/api/v1/questions/readOne/{id}": {
+            get: {
+                tags: ["Question"],
+                summary: "Read Question by ID",
+                description: "Enter ID to view question details.",
+                parameters: [
+                    {
+                        name: "id",
+                        in: "path",
+                        required: true,
+                        schema: {
+                            type: "string",
+                        },
+                    },
+                ],
+                responses: {
+                    200: {
+                        description: "Question retrieved",
+                    },
+                    404: {
+                        description: "Question not found",
+                    },
+                    500: {
+                        description: "Internal Server Error",
+                    },
+                },
+            },
+        },
+        
     },
+    
     components: {
         securitySchemes: {
             bearerAuth: {
                 type: "http",
                 scheme: "bearer",
                 bearerFormat: "JWT",
+                in: "header",
+                name: "Authorization",
             },
         },
     },

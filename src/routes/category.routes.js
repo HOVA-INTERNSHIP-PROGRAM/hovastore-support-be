@@ -8,8 +8,8 @@ const categoryRoute = express.Router();
 
 categoryRoute.get("/", getCategories);
 categoryRoute.get("/:id", getOneCategory);
-categoryRoute.post("/", fileUpload.single("files"),createCategory);
-categoryRoute.put("/:id", fileUpload.single("files"), updateCategory);
-categoryRoute.delete("/:id", fileUpload.single("files"), deleteCategory);
+categoryRoute.post("/", fileUpload.single("files"), Auth,createCategory);
+categoryRoute.put("/:id", fileUpload.single("files"), Auth, updateCategory);
+categoryRoute.delete("/:id", fileUpload.single("files"), Auth, deleteCategory);
 
 export default categoryRoute;
