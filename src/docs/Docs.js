@@ -29,6 +29,10 @@ const options = {
         {
             name: "Question",
             description: "Operations related to question entities",
+        },
+        {
+            step: "Answers",
+            description: "Operations related to answer entities",
         }
     ],
     paths: {
@@ -564,7 +568,158 @@ const options = {
                 },
             },
         },
-        
+        // Answer Documentation
+        "/api/v1/answers/{id}": {
+            get: {
+                tags: ["Answers"],
+                summary: "Get All Answers",
+                description: "Get all Answers",
+                parameters: [
+                    {
+                        name: "id",
+                        in: "path",
+                        required: true,
+                        schema: {
+                            type: "string",
+                        },
+                    },
+                ],
+                responses: {
+                    200: {
+                        description: "All Answers are retrieved successfully",
+                    },
+                    500: {
+                        
+                        description: "Internal Server Error",
+                    },
+                },
+            },
+            post: {
+                tags: ["Answers"],
+                summary: "Create Answer",
+                description: "Create a new Answer",
+                parameters: [
+                    {
+                        name: "id",
+                        in: "path",
+                        required: true,
+                        schema: {
+                            type: "string",
+                        },
+                    },
+                ],
+                requestBody: {
+                    content: {
+                        "multipart/form-data": {
+                            schema: {
+                                type: "object",
+                                properties: {
+                                    step: {
+                                        type: "string",
+                                    },
+                                    stepDescription: {
+                                        type: "string",
+                                    },
+                                    stepImage: {
+                                        type: "string",
+                                        format: "binary",
+                                    },
+                                },
+                            },
+                        },
+                    },
+                    required: true,
+                },
+                responses: {
+                    201: {
+                        description: "New Answer created successfully",
+                    },
+                    400: {
+                        description: "Bad Request",
+                    },
+                    500: {
+                        description: "Internal Server Error",
+                    },
+                },
+            },
+            put: {
+                tags: ["Answers"],
+                summary: "Update Answer",
+                description: "Update Answer",
+                parameters: [
+                    {
+                        name: "id",
+                        in: "path",
+                        required: true,
+                        schema: {
+                            type: "string",
+                        },
+                    },
+                ],
+                requestBody: {
+                    content: {
+                        "multipart/form-data": {
+                            schema: {
+                                type: "object",
+                                properties: {
+                                    step: {
+                                        type: "string",
+                                    },
+                                    stepDescription: {
+                                        type: "string",
+                                    },
+                                    stepImage: {
+                                        type: "string",
+                                        format: "binary",
+                                    },
+                                },
+                            },
+                        },
+                    },
+                    required: true,
+                },
+                responses: {
+                    201: {
+                        description: "Answer Updated successfully",
+                    },
+                    400: {
+                        description: "Bad Request",
+                    },
+                    500: {
+                        description: "Internal Server Error",
+                    },
+                },
+            },
+            delete: {
+                tags: ["Answers"],
+                summary: "Delete Answer",
+                description: "Answer ID to be deleted",
+                parameters: [
+                    {
+                        name: "id",
+                        in: "path",
+                        required: true,
+                        schema: {
+                            type: "string",
+                        },
+                    },
+                ],
+                responses: {
+                    200: {
+                        description: "Answer deleted",
+                    },
+                    400: {
+                        description: "Bad Request",
+                    },
+                    404: {
+                        description: "Answer not found",
+                    },
+                    500: {
+                        description: "Internal Server Error",
+                    },
+                },
+            },
+        },
     },
     
     components: {
