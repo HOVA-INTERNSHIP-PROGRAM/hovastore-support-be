@@ -273,7 +273,10 @@ const options = {
                                     description: {
                                         type: "string",
                                     },
-                                   
+                                    icon: {
+                                        type: "string",
+                                        format: "binary",
+                                    },
                                 },
                             },
                         },
@@ -345,6 +348,10 @@ const options = {
                                     },
                                     description: {
                                         type: "string",
+                                    },
+                                    icon: {
+                                        type: "string",
+                                        format: "binary",
                                     },
                                 },
                             },
