@@ -65,7 +65,10 @@ export const getCategories = async (req, res) => {
 export const getOneCategory = async (req, res) => {
   try {
     const { id } = req.params;
-    const category = await categoryService.getOneCat(id);
+    const category = await categoryService.getOneCat(id).then(
+      (category) =>
+      category.populate("questions", "questionPhrase categoryId createdAt")
+    );
     if (!category) {
       return res.status(404).json({
         status: "404",
