@@ -11,6 +11,12 @@ const categorySchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    icon: {
+      type: String,
+    },
+    userId:{
+      type: mongoose.Schema.ObjectId, ref:"users",
+    },
     questions: [{
       type: mongoose.Schema.ObjectId, ref:"questions",
     }],
