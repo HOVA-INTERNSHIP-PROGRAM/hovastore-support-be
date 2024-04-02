@@ -25,8 +25,7 @@ export const createCategory = async (req, res) => {
         message: "Category already exists",
       });
     }
-
-    const category = await categoryService.createCat(value);
+    const category = await categoryService.createCat(value, req.file, req.User._id);
     return res.status(201).json({
       status: "201",
       message: "Category created successfully",
@@ -106,7 +105,7 @@ export const updateCategory = async (req, res) => {
         message: "Category not found",
       });
     }
-    await categoryService.updateCategory(id, value);
+    await categoryService.updateCategory(id, value, req.file, req.User._id);
     return res.status(201).json({
       status: "201",
       message: "Category information Updated",

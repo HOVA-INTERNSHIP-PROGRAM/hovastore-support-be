@@ -3,13 +3,15 @@ import Joi from "joi"
 const createCategorySchema = Joi.object({
     name: Joi.string().optional(),
     description: Joi.string().optional(),
+    icon: Joi.string().optional(),
 });
 
 // Validation schema for updating a Category
 const updateCategorySchema = Joi.object({
   name: Joi.string().optional(),
   description: Joi.string().optional(),
-}).or('name', 'description'); 
+  icon: Joi.string().optional(),
+}).or('name', 'description','icon'); 
 
 // Function to validate Category creation
 export const validateCreateCategory = (CategoryData) => {
