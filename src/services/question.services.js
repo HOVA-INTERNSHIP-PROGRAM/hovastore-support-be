@@ -1,22 +1,23 @@
 import Questions from "../models/question.models";
 import mongoose from "mongoose";
 // service to add new question
-export const createQuestion = async (questionData, categoryId) => {
+export const createQuestion = async (questionData, categoryId, user) => {
   const { questionPhrase } = questionData;
 
   const question = await Questions.create({
     questionPhrase,
     categoryId,
+    userId: user,
   });
 
   return question;
 };
 
 // service to update question
-export const updateExistQuestion = async (id, questionData) => {
+export const updateExistQuestion = async (questionId, questionData) => {
   const { questionPhrase } = questionData;
 
-  return await Questions.findByIdAndUpdate(id, {
+  return await Questions.findByIdAndUpdate(questionId, {
     questionPhrase,
   });
 };
@@ -39,12 +40,12 @@ export const findAllQuestions = async (categoryId) => {
 
 // service to get single question
 
-export const findSingleQuestion = async (id) => {
-  return await Questions.findById(id);
+export const findSingleQuestion = async (questionId) => {
+  return await Questions.findById(questionId);
 };
 
 // service to delete a qustion
 
-export const deleteQuestion = async (id) => {
-  return await Questions.findByIdAndDelete(id);
+export const deleteQuestion = async (questionId) => {
+  return await Questions.findByIdAndDelete(questionId);
 };

@@ -13,9 +13,9 @@ export const createAQuestion = async (req, res) => {
       message: error.details[0].message,
     });
   }
-  const { id } = req.params;
+  const { categoryId } = req.params;
   const { questionPhrase } = req.body;
-  const checkCategory = await Category.findById(id);
+  const checkCategory = await Category.findById(categoryId);
   if (!checkCategory) {
     return res.status(404).json({
       status: "404",
@@ -26,7 +26,7 @@ export const createAQuestion = async (req, res) => {
     questionPhrase: questionPhrase,
   });
   if (checkQuestin) {
-    if (checkQuestin.categoryId == id) {
+    if (checkQuestin.categoryId == categoryId) {
       return res.status(400).json({
         status: "400",
         message: "Question already exist",
@@ -34,9 +34,9 @@ export const createAQuestion = async (req, res) => {
     }
   }
   try {
-    const question = await QuestionService.createQuestion(value, id);
+    const question = await QuestionService.createQuestion(value, categoryId, req.User._id);
     const updateCategory = await Category.findByIdAndUpdate(
-      id,
+      categoryId,
       { $push: { questions: question._id } },
       { new: true }
     );
@@ -63,21 +63,21 @@ export const updateAQuestion = async (req, res) => {
     });
   }
   try {
-    const { id } = req.params;
+    const { questionId } = req.params;
     const { questionPhrase } = req.body;
     const checkQuestin = await Questions.findOne({
       questionPhrase: questionPhrase,
     });
 
     if (checkQuestin) {
-      if (checkQuestin._id != id) {
+      if (checkQuestin._id != questionId) {
         return res.status(400).json({
           status: "400",
           message: "Question already exist",
         });
       }
     }
-    const checkQuestions = await Questions.findById(id);
+    const checkQuestions = await Questions.findById(questionId);
     if (!checkQuestions) {
       return res.status(404).json({
         status: "404",
@@ -85,7 +85,7 @@ export const updateAQuestion = async (req, res) => {
       });
     }
 
-    await QuestionService.updateExistQuestion(id, value);
+    await QuestionService.updateExistQuestion(questionId, value);
     return res.status(200).json({
       status: "200",
       message: "Question updated",
@@ -103,8 +103,8 @@ export const updateAQuestion = async (req, res) => {
 
 export const viewAll = async (req, res) => {
   try {
-    const { id } = req.params;
-    const getQuestions = await QuestionService.findAllQuestions(id);
+    const { categoryId } = req.params;
+    const getQuestions = await QuestionService.findAllQuestions(categoryId);
     if (!getQuestions || getQuestions.length === 0) {
       return res.status(404).json({
         status: "404",
@@ -129,8 +129,8 @@ export const viewAll = async (req, res) => {
 
 export const viewOneQuestion = async (req, res) => {
   try {
-    const { id } = req.params;
-    const getOne = await QuestionService.findSingleQuestion(id).then(
+    const { questionId } = req.params;
+    const getOne = await QuestionService.findSingleQuestion(questionId).then(
       (question) =>
         question.populate("answers", "step stepImage stepDescription createdAt")
     );
@@ -158,8 +158,8 @@ export const viewOneQuestion = async (req, res) => {
 
 export const deleteQuestion = async (req, res) => {
   try {
-    const { id } = req.params;
-    const deleteIt = await QuestionService.deleteQuestion(id);
+    const { questionId } = req.params;
+    const deleteIt = await QuestionService.deleteQuestion(questionId);
     if (!deleteIt) {
       return res.status(404).json({
         status: "404",

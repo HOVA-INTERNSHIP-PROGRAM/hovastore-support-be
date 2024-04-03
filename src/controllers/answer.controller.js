@@ -15,9 +15,9 @@ export const createAnswer = async (req, res) => {
     });
   }
 
-  const { id } = req.params;
+  const {questionId } = req.params;
   const { step } = req.body;
-  const checkQuestion = await Questions.findById(id);
+  const checkQuestion = await Questions.findById(questionId);
   if (!checkQuestion) {
     return res.status(404).json({
       status: "404",
@@ -26,7 +26,7 @@ export const createAnswer = async (req, res) => {
   }
   const checkAnswer = await Answers.findOne({ step: step });
   if (checkAnswer) {
-    if (checkAnswer.questionId == id) {
+    if (checkAnswer.questionId == questionId) {
       return res.status(400).json({
         status: "400",
         message: "The Answer step already exist on this qauestion",
@@ -35,9 +35,14 @@ export const createAnswer = async (req, res) => {
   }
 
   try {
-    const answer = await AnswerService.addAnswer(value, id, req.file);
+    const answer = await AnswerService.addAnswer(
+      value,
+      questionId,
+      req.file,
+      req.User._id
+    );
     await Questions.findByIdAndUpdate(
-      id,
+      questionId,
       { $push: { answers: answer._id } },
       { new: true }
     );
@@ -58,8 +63,8 @@ export const createAnswer = async (req, res) => {
 // controller to get all answers
 export const getAllAnswers = async (req, res) => {
   try {
-    const { id } = req.params;
-    const answers = await AnswerService.getAllAnswers(id);
+    const { questionId } = req.params;
+    const answers = await AnswerService.getAllAnswers(questionId);
     return res.status(200).json({
       status: "200",
       message: "All Answer to the question is retrieved successfully",
@@ -77,8 +82,8 @@ export const getAllAnswers = async (req, res) => {
 // controller to delete answer
 export const deleteAnswer = async (req, res) => {
   try {
-    const { id } = req.params;
-    const answer = await AnswerService.deleteAnswer(id);
+    const { answerId } = req.params;
+    const answer = await AnswerService.deleteAnswer(answerId);
     if (!answer) {
       return res.status(404).json({
         status: "404",
@@ -108,12 +113,12 @@ export const updateAnswer = async (req, res) => {
   }
 
   try {
-    const { id } = req.params;
+    const { answerId } = req.params;
     const { answerStep } = req.body;
     const checkAnswer = await Answers.findOne({ step: answerStep });
 
     if (checkAnswer) {
-      if (checkAnswer._id != id) {
+      if (checkAnswer._id != answerId) {
         return res.status(400).json({
           status: "400",
           message: "Answer already exist",
@@ -121,7 +126,7 @@ export const updateAnswer = async (req, res) => {
       }
     }
 
-    const checkAnswers = await Answers.findById(id);
+    const checkAnswers = await Answers.findById(answerId);
     if (!checkAnswers) {
       return res.status(404).json({
         status: "404",
@@ -129,7 +134,7 @@ export const updateAnswer = async (req, res) => {
       });
     }
 
-    await AnswerService.updateAnswer(id, value, req.file);
+    await AnswerService.updateAnswer(answerId, value, req.file);
     return res.status(200).json({
       status: "200",
       message: "Answer updated",

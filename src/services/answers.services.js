@@ -4,7 +4,7 @@ import { uploadToCloud } from "../helper/cloud";
 
 //service to add answer to question
 
-export const addAnswer = async (answerData, questionId, file) => {
+export const addAnswer = async (answerData, questionId, file, user) => {
   const { step, stepDescription } = answerData;
   let savedImage;
   if (file) savedImage = await uploadToCloud(file);
@@ -13,16 +13,17 @@ export const addAnswer = async (answerData, questionId, file) => {
     stepImage: savedImage?.secure_url,
     stepDescription,
     questionId,
+    userId: user,
   });
 };
 
 // service to update answer
 
-export const updateAnswer = async (id, answerData, file) => {
+export const updateAnswer = async (answerId, answerData, file) => {
   const { step, stepDescription } = answerData;
   let updatedImage;
   if (file) updatedImage = await uploadToCloud(file);
-  return await Answers.findByIdAndUpdate(id, {
+  return await Answers.findByIdAndUpdate(answerId, {
     step,
     stepImage: updatedImage?.secure_url,
     stepDescription,
@@ -43,12 +44,12 @@ export const getAllAnswers = async (questionId) => {
 
 // service to get single answer
 
-export const getSingleAnswer = async (id) => {
-  return await Answers.findById(id);
+export const getSingleAnswer = async (answerId) => {
+  return await Answers.findById(answerId);
 };
 
 // service to delete answer
 
-export const deleteAnswer = async (id) => {
-  return await Answers.findByIdAndDelete(id);
+export const deleteAnswer = async (answerId) => {
+  return await Answers.findByIdAndDelete(answerId);
 };

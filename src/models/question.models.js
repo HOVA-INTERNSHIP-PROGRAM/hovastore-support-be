@@ -7,6 +7,9 @@ const questionSchema = new mongoose.Schema({
     categoryId: {
         type: mongoose.Schema.ObjectId, ref:"category",
     },
+    userId:{
+        type: mongoose.Schema.ObjectId, ref:"users",
+      },
     answers: [{
         type: mongoose.Schema.ObjectId, ref:"answers",
     }],

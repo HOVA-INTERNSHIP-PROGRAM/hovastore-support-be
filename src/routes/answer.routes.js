@@ -5,9 +5,9 @@ import Auth from "../middleware/auth";
 
 const answerRoute = express.Router();
 
-answerRoute.get("/:id", getAllAnswers);
-answerRoute.post("/:id", fileUpload.single("stepImage"), Auth,createAnswer);
-answerRoute.put("/:id", fileUpload.single("stepImage"), Auth, updateAnswer);
-answerRoute.delete("/:id", fileUpload.single("stepImage"), Auth, deleteAnswer);
+answerRoute.get("/:questionId", getAllAnswers);
+answerRoute.post("/:questionId", fileUpload.single("stepImage"), Auth,createAnswer);
+answerRoute.put("/:answerId", fileUpload.single("stepImage"), Auth, updateAnswer);
+answerRoute.delete("/:answerId", fileUpload.single("stepImage"), Auth, deleteAnswer);
 
 export default answerRoute;
