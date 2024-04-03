@@ -63,8 +63,7 @@ export const createAnswer = async (req, res) => {
 // controller to get all answers
 export const getAllAnswers = async (req, res) => {
   try {
-    const { questionId } = req.params;
-    const answers = await AnswerService.getAllAnswers(questionId);
+    const answers = await AnswerService.getAllAnswers();
     return res.status(200).json({
       status: "200",
       message: "All Answer to the question is retrieved successfully",

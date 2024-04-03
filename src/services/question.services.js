@@ -24,13 +24,12 @@ export const updateExistQuestion = async (questionId, questionData) => {
 
 // service for getting all questions
 
-export const findAllQuestions = async (categoryId) => {
+export const findAllQuestions = async () => {
   try {
-    // Convert categoryId to ObjectId
-    const categoryIdObj = new mongoose.Types.ObjectId(categoryId);
-
-    // Query questions based on categoryId
-    const questions = await Questions.find({ categoryId: categoryIdObj });
+    const questions = await Questions.find().populate({
+      path: 'userId',
+      select: 'name img'
+    }).populate({ path: "answers" }).populate({ path: 'categoryId', select: 'name description' });
 
     return questions;
   } catch (error) {
@@ -41,7 +40,10 @@ export const findAllQuestions = async (categoryId) => {
 // service to get single question
 
 export const findSingleQuestion = async (questionId) => {
-  return await Questions.findById(questionId);
+  return await Questions.findById(questionId).populate({
+    path: 'userId',
+    select: 'name img'
+  }).populate({ path: "answers" }).populate({ path: 'categoryId', select: 'name description' });
 };
 
 // service to delete a qustion

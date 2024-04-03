@@ -449,21 +449,11 @@ const options = {
                 },
             },
         },
-        "/api/v1/questions/all/{categoryId}": {
+        "/api/v1/questions": {
             get: {
                 tags: ["Question"],
                 summary: "Get all Questions for category you want",
-                description: "Enter category ID to view all questions",
-                parameters: [
-                    {
-                        name: "categoryId",
-                        in: "path",
-                        required: true,
-                        schema: {
-                            type: "string",
-                        },
-                    },
-                ],
+                description: "View all questions",
                 responses: {
                     200: {
                         description: "Question retrieved",
@@ -577,21 +567,11 @@ const options = {
             },
         },
         // Answer Documentation
-        "/api/v1/answers/{questionId}": {
+        "/api/v1/answers": {
             get: {
                 tags: ["Answers"],
                 summary: "Get All Answers",
-                description: "Get all answers by entering question ID",
-                parameters: [
-                    {
-                        name: "questionId",
-                        in: "path",
-                        required: true,
-                        schema: {
-                            type: "string",
-                        },
-                    },
-                ],
+                description: "Get all answers",
                 responses: {
                     200: {
                         description: "All Answers to a question are retrieved successfully",
@@ -602,6 +582,8 @@ const options = {
                     },
                 },
             },
+        },
+        "/api/v1/answers/{questionId}": {
             post: {
                 tags: ["Answers"],
                 summary: "Create Answer",

@@ -35,7 +35,7 @@ export const createAQuestion = async (req, res) => {
   }
   try {
     const question = await QuestionService.createQuestion(value, categoryId, req.User._id);
-    const updateCategory = await Category.findByIdAndUpdate(
+    await Category.findByIdAndUpdate(
       categoryId,
       { $push: { questions: question._id } },
       { new: true }
@@ -103,8 +103,8 @@ export const updateAQuestion = async (req, res) => {
 
 export const viewAll = async (req, res) => {
   try {
-    const { categoryId } = req.params;
-    const getQuestions = await QuestionService.findAllQuestions(categoryId);
+    
+    const getQuestions = await QuestionService.findAllQuestions();
     if (!getQuestions || getQuestions.length === 0) {
       return res.status(404).json({
         status: "404",

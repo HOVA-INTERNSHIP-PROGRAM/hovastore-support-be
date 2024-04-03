@@ -11,7 +11,7 @@ import {
 
  const questionRoute = express.Router();
  questionRoute.post("/:categoryId",Auth,fileUpload.single("question"),createAQuestion);
- questionRoute.get("/all/:categoryId",viewAll);
+ questionRoute.get("/",viewAll);
  questionRoute.get("/:questionId", viewOneQuestion);
  questionRoute.put("/:questionId",Auth,fileUpload.single("question"),updateAQuestion);
  questionRoute.delete("/:questionId",Auth,fileUpload.single("question"),deleteQuestion);

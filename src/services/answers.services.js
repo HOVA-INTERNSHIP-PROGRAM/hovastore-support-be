@@ -32,10 +32,12 @@ export const updateAnswer = async (answerId, answerData, file) => {
 
 // service to get all answers on given question
 
-export const getAllAnswers = async (questionId) => {
+export const getAllAnswers = async () => {
   try {
-    const idObject = new mongoose.Types.ObjectId(questionId);
-    const answer = await Answers.find({ questionId: idObject });
+    const answer = await Answers.find().populate({
+      path: 'userId',
+      select: 'name img'
+    }).populate({ path: 'questionId', select: 'questionPhrase' });
     return answer;
   } catch (error) {
     throw new Error("Failed to retrieve answers: " + error.message);
@@ -45,7 +47,10 @@ export const getAllAnswers = async (questionId) => {
 // service to get single answer
 
 export const getSingleAnswer = async (answerId) => {
-  return await Answers.findById(answerId);
+  return await Answers.findById(answerId).populate({
+    path: 'userId',
+    select: 'name img'
+  }).populate({ path: 'questionId', select: 'questionPhrase' });
 };
 
 // service to delete answer
