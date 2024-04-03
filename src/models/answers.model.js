@@ -14,6 +14,9 @@ const answerSchema = new mongoose.Schema({
     questionId: {
         type: mongoose.Schema.ObjectId, ref:"questions",
     },
+    userId:{
+        type: mongoose.Schema.ObjectId, ref:"users",
+      },
 },{ timestamps: true });
 
 const Answers = mongoose.model("answers", answerSchema);

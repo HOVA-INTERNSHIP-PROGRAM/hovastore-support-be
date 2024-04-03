@@ -296,14 +296,14 @@ const options = {
                 },
             },
         },
-        "/api/v1/categories/{id}": {
+        "/api/v1/categories/{categoryId}": {
             get: {
                 tags: ["Categories"],
                 summary: "Read Category By ID",
                 description: "Get a Category by ID",
                 parameters: [
                     {
-                        name: "id",
+                        name: "categoryId",
                         in: "path",
                         required: true,
                         schema: {
@@ -329,7 +329,7 @@ const options = {
                 description: "Update an existing Category",
                 parameters: [
                     {
-                        name: "id",
+                        name: "categoryId",
                         in: "path",
                         required: true,
                         schema: {
@@ -380,7 +380,7 @@ const options = {
                 description: "Delete a Category by ID",
                 parameters: [
                     {
-                        name: "id",
+                        name: "categoryId",
                         in: "path",
                         required: true,
                         schema: {
@@ -405,14 +405,14 @@ const options = {
             },
         },
         //Question side
-        "/api/v1/questions/{id}": {
+        "/api/v1/questions/{categoryId}": {
             post: {
                 tags: ["Question"],
                 summary: "Create Question",
                 description: "Category ID to create a new Question",
                 parameters: [
                     {
-                        name: "id",
+                        name: "categoryId",
                         in: "path",
                         required: true,
                         schema: {
@@ -448,13 +448,57 @@ const options = {
                     },
                 },
             },
+        },
+        "/api/v1/questions": {
+            get: {
+                tags: ["Question"],
+                summary: "Get all Questions for category you want",
+                description: "View all questions",
+                responses: {
+                    200: {
+                        description: "Question retrieved",
+                    },
+                    500: {
+                        description: "Internal Server Error",
+                    },
+                },
+            },
+            
+        },
+        "/api/v1/questions/{questionId}": {
+            get: {
+                tags: ["Question"],
+                summary: "Read Question by ID",
+                description: "Enter ID to view question details.",
+                parameters: [
+                    {
+                        name: "questionId",
+                        in: "path",
+                        required: true,
+                        schema: {
+                            type: "string",
+                        },
+                    },
+                ],
+                responses: {
+                    200: {
+                        description: "Question retrieved",
+                    },
+                    404: {
+                        description: "Question not found",
+                    },
+                    500: {
+                        description: "Internal Server Error",
+                    },
+                },
+            },
             put: {
                 tags: ["Question"],
                 summary: "Update Question",
                 description: "Question ID to update question",
                 parameters: [
                     {
-                        name: "id",
+                        name: "questionId",
                         in: "path",
                         required: true,
                         schema: {
@@ -498,7 +542,7 @@ const options = {
                 description: "Question ID to be deleted",
                 parameters: [
                     {
-                        name: "id",
+                        name: "questionId",
                         in: "path",
                         required: true,
                         schema: {
@@ -522,78 +566,15 @@ const options = {
                 },
             },
         },
-        "/api/v1/questions/read/{id}": {
-            get: {
-                tags: ["Question"],
-                summary: "Get all Questions for category you want",
-                description: "Enter category ID to view all questions",
-                parameters: [
-                    {
-                        name: "id",
-                        in: "path",
-                        required: true,
-                        schema: {
-                            type: "string",
-                        },
-                    },
-                ],
-                responses: {
-                    200: {
-                        description: "Question retrieved",
-                    },
-                    500: {
-                        description: "Internal Server Error",
-                    },
-                },
-            },
-        },
-        "/api/v1/questions/readOne/{id}": {
-            get: {
-                tags: ["Question"],
-                summary: "Read Question by ID",
-                description: "Enter ID to view question details.",
-                parameters: [
-                    {
-                        name: "id",
-                        in: "path",
-                        required: true,
-                        schema: {
-                            type: "string",
-                        },
-                    },
-                ],
-                responses: {
-                    200: {
-                        description: "Question retrieved",
-                    },
-                    404: {
-                        description: "Question not found",
-                    },
-                    500: {
-                        description: "Internal Server Error",
-                    },
-                },
-            },
-        },
         // Answer Documentation
-        "/api/v1/answers/{id}": {
+        "/api/v1/answers": {
             get: {
                 tags: ["Answers"],
                 summary: "Get All Answers",
-                description: "Get all Answers",
-                parameters: [
-                    {
-                        name: "id",
-                        in: "path",
-                        required: true,
-                        schema: {
-                            type: "string",
-                        },
-                    },
-                ],
+                description: "Get all answers",
                 responses: {
                     200: {
-                        description: "All Answers are retrieved successfully",
+                        description: "All Answers to a question are retrieved successfully",
                     },
                     500: {
                         
@@ -601,13 +582,15 @@ const options = {
                     },
                 },
             },
+        },
+        "/api/v1/answers/{questionId}": {
             post: {
                 tags: ["Answers"],
                 summary: "Create Answer",
-                description: "Create a new Answer",
+                description: "Create a new answer by entering question ID",
                 parameters: [
                     {
-                        name: "id",
+                        name: "questionId",
                         in: "path",
                         required: true,
                         schema: {
@@ -649,13 +632,15 @@ const options = {
                     },
                 },
             },
+        },
+        "/api/v1/answers/{answerId}": {
             put: {
                 tags: ["Answers"],
                 summary: "Update Answer",
-                description: "Update Answer",
+                description: "Enter answer ID to update",
                 parameters: [
                     {
-                        name: "id",
+                        name: "answerId",
                         in: "path",
                         required: true,
                         schema: {
@@ -703,7 +688,7 @@ const options = {
                 description: "Answer ID to be deleted",
                 parameters: [
                     {
-                        name: "id",
+                        name: "answerId",
                         in: "path",
                         required: true,
                         schema: {

@@ -63,8 +63,11 @@ export const getCategories = async (req, res) => {
 // controller to retrieve single category by id
 export const getOneCategory = async (req, res) => {
   try {
-    const { id } = req.params;
-    const category = await categoryService.getOneCat(id);
+    const { categoryId } = req.params;
+    const category = await categoryService.getOneCat(categoryId).then(
+      (category) =>
+      category.populate("questions", "questionPhrase categoryId createdAt")
+    );
     if (!category) {
       return res.status(404).json({
         status: "404",
@@ -94,15 +97,15 @@ export const updateCategory = async (req, res) => {
     });
   }
   try {
-    const { id } = req.params;
-    const findId = await Category.findById(id);
+    const { categoryId } = req.params;
+    const findId = await Category.findById(categoryId);
     if (!findId) {
       return res.status(404).json({
         status: "404",
         message: "Category not found",
       });
     }
-    await categoryService.updateCategory(id, value, req.file, req.User._id);
+    await categoryService.updateCategory(categoryId, value, req.file, req.User._id);
     return res.status(201).json({
       status: "201",
       message: "Category information Updated",
@@ -119,15 +122,15 @@ export const updateCategory = async (req, res) => {
 // controller to delete a category
 export const deleteCategory = async (req, res) => {
   try {
-    const { id } = req.params;
-    const findId = await Category.findById(id);
+    const { categoryId } = req.params;
+    const findId = await Category.findById(categoryId);
     if (!findId) {
       return res.status(404).json({
         status: "404",
         message: "Category not found",
       });
     }
-    await categoryService.deleteCategory(id);
+    await categoryService.deleteCategory(categoryId);
     return res.status(200).json({
       status: "200",
       message: "Category deleted successfully",

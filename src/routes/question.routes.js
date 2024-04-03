@@ -10,10 +10,10 @@ import {
  } from "../controllers/question.controller";
 
  const questionRoute = express.Router();
- questionRoute.post("/:id",Auth,fileUpload.single("question"),createAQuestion);
- questionRoute.get("/read/:id",viewAll);
- questionRoute.get("/readOne/:id", viewOneQuestion);
- questionRoute.put("/:id",Auth,fileUpload.single("question"),updateAQuestion);
- questionRoute.delete("/:id",Auth,fileUpload.single("question"),deleteQuestion);
+ questionRoute.post("/:categoryId",Auth,fileUpload.single("question"),createAQuestion);
+ questionRoute.get("/",viewAll);
+ questionRoute.get("/:questionId", viewOneQuestion);
+ questionRoute.put("/:questionId",Auth,fileUpload.single("question"),updateAQuestion);
+ questionRoute.delete("/:questionId",Auth,fileUpload.single("question"),deleteQuestion);
 
  export default questionRoute;
