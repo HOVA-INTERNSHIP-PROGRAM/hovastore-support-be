@@ -24,10 +24,19 @@ export const getCat = async () => {
 
 // service to retrieve a single category by id
 export const getOneCat = async (categoryId) => {
-  return await Category.findById(categoryId).populate({
-    path: 'userId',
-    select: 'name img' 
-  });
+  return await Category.findById(categoryId)
+    .populate({
+      path: 'userId',
+      select: 'name img'
+    })
+    .populate({
+      path: 'questions',
+      select: 'questionPhrase categoryId createdAt',
+      populate: {
+        path: 'answers',
+        select: 'step stepImage stepDescription questionId userId'
+      }
+    });
 };
 
 

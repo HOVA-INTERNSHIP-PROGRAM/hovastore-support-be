@@ -25,7 +25,11 @@ export const createCategory = async (req, res) => {
         message: "Category already exists",
       });
     }
-    const category = await categoryService.createCat(value, req.file, req.User._id);
+    const category = await categoryService.createCat(
+      value,
+      req.file,
+      req.User._id
+    );
     return res.status(201).json({
       status: "201",
       message: "Category created successfully",
@@ -64,25 +68,24 @@ export const getCategories = async (req, res) => {
 export const getOneCategory = async (req, res) => {
   try {
     const { categoryId } = req.params;
-    const category = await categoryService.getOneCat(categoryId).then(
-      (category) =>
-      category.populate("questions", "questionPhrase categoryId createdAt")
-    );
+    const category = await categoryService.getOneCat(categoryId);
+
     if (!category) {
       return res.status(404).json({
         status: "404",
         message: "Category not found",
       });
     }
+
     res.status(200).json({
       status: "200",
-      message: "One category retrieved successfully",
+      message: "Category retrieved successfully",
       data: category,
     });
   } catch (error) {
     return res.status(500).json({
       status: "500",
-      message: "Failed to retrieve One Category",
+      message: "Failed to retrieve category",
       error: error.message,
     });
   }
@@ -105,7 +108,12 @@ export const updateCategory = async (req, res) => {
         message: "Category not found",
       });
     }
-    await categoryService.updateCategory(categoryId, value, req.file, req.User._id);
+    await categoryService.updateCategory(
+      categoryId,
+      value,
+      req.file,
+      req.User._id
+    );
     return res.status(201).json({
       status: "201",
       message: "Category information Updated",
