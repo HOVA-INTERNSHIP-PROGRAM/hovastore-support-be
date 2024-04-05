@@ -241,7 +241,95 @@ const options = {
                 },
             },
         },
-
+        "/api/v1/users/forgot-password": {
+                post: {
+                    tags: ["Users"],
+                    summary: "Forgot Password",
+                    description: "Forgot Password",
+                    requestBody: {
+                        content: {
+                            "multipart/form-data": {
+                                schema: {
+                                    type: "object",
+                                    properties: {
+    
+                                        email: {
+                                            type: "string",
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                        required: true,
+                    },
+                    responses: {
+                        200: {
+                            description: "Password reset link sent to your email",
+                        },
+                        400: {
+                            description: "Bad Request",
+                        },
+                        500: {
+                            description: "Internal Server Error",
+                        },
+                    },
+                },
+            },
+        "/api/v1/users/reset-password/{resetToken}/{id}": {
+                post: {
+                    tags: ["Users"],
+                    summary: "Forgot Password",
+                    description: "Forgot Password",
+                    parameters: [
+                        {
+                            name: "resetToken",
+                            in: "path",
+                            required: true,
+                            schema: {
+                                type: "string",
+                            },
+                        },
+                        {
+                            name: "id",
+                            in: "path",
+                            required: true,
+                            schema: {
+                                type: "string",
+                            },
+                        },
+                    ],
+                    requestBody: {
+                        content: {
+                            "multipart/form-data": {
+                                schema: {
+                                    type: "object",
+                                    properties: {
+    
+                                        password: {
+                                            type: "string",
+                                        },
+                                        confirmPassword: {
+                                            type: "string",
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                        required: true,
+                    },
+                    responses: {
+                        200: {
+                            description: "Your Password changed!... you may now login with new password",
+                        },
+                        400: {
+                            description: "Bad Request",
+                        },
+                        500: {
+                            description: "Internal Server Error",
+                        },
+                    },
+                },
+            },
 
         "/api/v1/categories": {
             get: {

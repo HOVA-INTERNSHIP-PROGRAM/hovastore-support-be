@@ -1,7 +1,9 @@
 import User from "../models/user.models";
 import bcrypt from "bcrypt";
 import { uploadToCloud } from "../helper/cloud";
-
+import { sendResetEmail } from "../utils/emailTemplate";
+import Token from "../models/resetToken.model";
+import crypto from "crypto";
 // Service to find all users
 export const findAllUsers = async () => {
   return await User.find();
@@ -65,3 +67,44 @@ export const loginUser = async (userData) => {
 
   return user;
 };
+
+// service for forgot password
+export const forgotPasswordService = async (userEmail) => {
+  const user = await User.findOne({email: userEmail});
+    if(!user){
+      throw new Error("user not found");
+    } 
+    
+    const resetToken = crypto.randomBytes(32).toString("hex");
+    await Token.create({
+      token: resetToken,
+      user: user._id,
+    });
+    const link = `http://localhost:${process.env.PORT}/api/v1/users/reset-password/${resetToken}/${user._id}`;
+    sendResetEmail(user.email, user.name, link);
+    console.log(link);
+};
+
+// service to reset password
+export const resetPasswordService = async (id, resetToken, password, confirmPassword) => {
+  const user = await User.findById(id);
+      if(!user){
+        throw new Error("user not found");
+      }
+      const validatedLinkToken = await Token.findOne({token: resetToken});
+      if(!validatedLinkToken){
+        throw new Error("Password reset link is not valid");
+      } 
+      if(password != confirmPassword){
+        throw new Error("Two passwords does not match");
+      }
+      
+      const salt = await bcrypt.genSalt(10);
+      const hashedPass = await bcrypt.hash(password, salt);
+      await User.findByIdAndUpdate(id, {password: hashedPass});
+      await Token.findByIdAndDelete(validatedLinkToken._id);
+};
+
+
+
+

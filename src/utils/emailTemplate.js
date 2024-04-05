@@ -13,3 +13,16 @@ export const sendEmailToAdmin = (email, name) => {
 
     sendMail(emailTemplate)
 };
+
+export const sendResetEmail = (email, name, link) => {
+    const emailTemplate = {
+        emailTo: email,
+        subject: "⚠ Password reset link",
+        message: `<h1>Dear Admin, ${name}</h1></br>
+        to reset your password click <a href="${link}" target="_blank">${link}</a><br/><br/>
+        The Hover Ai Team<br/>`,
+    };
+
+    sendMail(emailTemplate);
+
+};
