@@ -1,5 +1,4 @@
 import Questions from "../models/question.models";
-import mongoose from "mongoose";
 // service to add new question
 export const createQuestion = async (questionData, categoryId, user) => {
   const { questionPhrase } = questionData;

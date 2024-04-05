@@ -2,7 +2,11 @@
 import * as UserService from "../services/users.services"
 import { sendEmailToAdmin } from "../utils/emailTemplate";
 import generateToken from "../utils/generateToken";
-import { validateCreateUser, validateUpdateUser } from "../validation/users.validation";
+import { validateCreateUser, validateUpdateUser, validateForgotPassword, validateResetPassword } from "../validation/users.validation";
+// To be removed
+import User from "../models/user.models";
+import bcrypt from "bcrypt";
+import Token from "../models/resetToken.model";
 
 // getAllUsers controller
 export const getAllUsers = async (req, res) => {
@@ -128,6 +132,48 @@ export const login = async (req, res) => {
     res.status(500).json({
       status: "500",
       message: "Failed to login",
+      error: error.message,
+    });
+  }
+};
+// controller for forgot password it will send email to a user to reset their password
+export const forgotPassword = async (req, res) => {
+  try {
+    const { error, value } = validateForgotPassword(req.body);
+  if (error) {
+    return res.status(400).json({ message: error.details[0].message });
+  }
+    // const userEmail = req.body.email;
+    await UserService.forgotPasswordService(value.email);
+    return res.status(200).json({message: "link to reset your password is sent to your email"});
+  } catch (error) {
+    return res.status(500).json({
+      status: "500",
+      message: "failed to send password reset link",
+      error: error.message,
+    });
+  }
+};
+
+export const resetPassword = async (req, res) => {
+    try{
+      const { id, resetToken } = req.params;
+      // const { password, confirmPassword } = req.body;
+      const { error, value } = validateResetPassword(req.body);
+      if (error) {
+        return res.status(400).json({ message: error.details[0].message });
+      }
+      await UserService.resetPasswordService(id, resetToken, value.password, value.confirmPassword);
+      return res.status(200).json({
+        status: "200",
+        message: "Password changed!.. you can now login with new password",
+      });
+
+  }
+  catch(error){
+    return res.status(500).json({
+      status: "500",
+      message: "failed to reset password",
       error: error.message,
     });
   }

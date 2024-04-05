@@ -21,6 +21,17 @@ const loginUserSchema = Joi.object({
   password: Joi.string().required(),
 });
 
+// Validation schema for forgot password
+const forgotPasswordSchema = Joi.object({
+  email: Joi.string().email().required(),
+});
+
+// Validation schema for forgot password
+const resetPasswordSchema = Joi.object({
+  password: Joi.string().required(), 
+  confirmPassword: Joi.string().required(), 
+});
+
 // Function to validate user creation
 export const validateCreateUser = (userData) => {
   return createUserSchema.validate(userData);
@@ -34,4 +45,14 @@ export const validateUpdateUser = (userData) => {
 // Function to validate user login
 export const validateLoginUser = (userData) => {
   return loginUserSchema.validate(userData);
+};
+
+// Function to validate forgot password
+export const validateForgotPassword = (email) => {
+  return forgotPasswordSchema.validate(email);
+};
+
+// Function to validate reset password
+export const validateResetPassword = (userData) => {
+  return resetPasswordSchema.validate(userData);
 };
