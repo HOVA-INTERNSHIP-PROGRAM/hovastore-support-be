@@ -1,9 +1,9 @@
 import Questions from "../models/question.models";
 // service to add new question
 export const createQuestion = async (questionData, categoryId, user) => {
-  const { addQuestion } = questionData;
+  const { question } = questionData;
 
-  const question = await Questions.create({
+  const addQuestion = await Questions.create({
     question,
     categoryId,
     userId: user,
@@ -25,10 +25,13 @@ export const updateExistQuestion = async (questionId, questionData) => {
 
 export const findAllQuestions = async () => {
   try {
-    const questions = await Questions.find().populate({
-      path: 'userId',
-      select: 'name img'
-    }).populate({ path: "answers" }).populate({ path: 'categoryId', select: 'name description' });
+    const questions = await Questions.find()
+      .populate({
+        path: "userId",
+        select: "name img",
+      })
+      .populate({ path: "answers" })
+      .populate({ path: "categoryId", select: "name description icon" });
 
     return questions;
   } catch (error) {
@@ -39,10 +42,13 @@ export const findAllQuestions = async () => {
 // service to get single question
 
 export const findSingleQuestion = async (questionId) => {
-  return await Questions.findById(questionId).populate({
-    path: 'userId',
-    select: 'name img'
-  }).populate({ path: "answers" }).populate({ path: 'categoryId', select: 'name description' });
+  return await Questions.findById(questionId)
+    .populate({
+      path: "userId",
+      select: "name img",
+    })
+    .populate({ path: "answers" })
+    .populate({ path: "categoryId", select: "name description icon" });
 };
 
 // service to delete a qustion

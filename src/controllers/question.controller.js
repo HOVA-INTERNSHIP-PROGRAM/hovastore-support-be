@@ -34,16 +34,16 @@ export const createAQuestion = async (req, res) => {
     }
   }
   try {
-    const question = await QuestionService.createQuestion(value, categoryId, req.User._id);
+    const questions = await QuestionService.createQuestion(value, categoryId, req.User._id);
     await Category.findByIdAndUpdate(
       categoryId,
-      { $push: { questions: question._id } },
+      { $push: { questions: questions._id } },
       { new: true }
-    );
+      );
     return res.status(200).json({
       status: "200",
       message: "Question added",
-      data: question,
+      data: questions,
     });
   } catch (error) {
     return res.status(500).json({
