@@ -514,7 +514,7 @@ const options = {
                             schema: {
                                 type: "object",
                                 properties: {
-                                    questionPhrase: {
+                                    question: {
                                         type: "string",
                                     },
                                    
@@ -600,7 +600,7 @@ const options = {
                             schema: {
                                 type: "object",
                                 properties: {
-                                    questionPhrase: {
+                                    question: {
                                         type: "string",
                                     },
                                 },
