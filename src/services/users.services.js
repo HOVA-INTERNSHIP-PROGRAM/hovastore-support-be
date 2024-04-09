@@ -80,7 +80,7 @@ export const forgotPasswordService = async (userEmail) => {
       token: resetToken,
       user: user._id,
     });
-    const link = `http://localhost:${process.env.PORT}/api/v1/users/reset-password/${resetToken}/${user._id}`;
+    const link = `https://hovastore-support-be.onrender.com/api/v1/users/reset-password/${user._id}/${resetToken}`;
     sendResetEmail(user.email, user.name, link);
     console.log(link);
 };
