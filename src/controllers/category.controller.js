@@ -1,9 +1,13 @@
 import Category from "../models/categories.model";
 import * as categoryService from "../services/category.services";
+import translateText from "../utils/TranslateLanguage";
+
 import {
   validateCreateCategory,
   validateUpdateCategory,
 } from "../validation/categories.validation";
+
+
 
 // controller to create a category
 export const createCategory = async (req, res) => {
@@ -49,6 +53,8 @@ export const createCategory = async (req, res) => {
 export const getCategories = async (req, res) => {
   try {
     const category = await categoryService.getCat();
+    const translatedText = await translateText('Hello, world!', 'en', 'es');
+    console.log(translatedText);
     return res.status(200).json({
       status: "200",
       message: "Categories are retrieve successfully",
@@ -63,6 +69,9 @@ export const getCategories = async (req, res) => {
     });
   }
 };
+
+
+
 
 // controller to retrieve single category by id
 export const getOneCategory = async (req, res) => {
