@@ -1,14 +1,16 @@
-import translate from "google-translate-api";
-async function translateText(text, from = 'auto', to = 'en') {
+// Assuming translateText is intended to be used directly or in a route/middleware
+async function translateText(text, targetLang) {
+    if (!text) return null;
+
     try {
-        const res = await translate(text, { from, to });
+        const translate = (await import('translate')).default;
+        const res = await translate(text, { to: targetLang });
         return res.text;
     } catch (err) {
-        console.error('Translation error:', err);
-        return '';
+        console.error(err);
+        return null;
     }
 }
-
 
 
 export default translateText

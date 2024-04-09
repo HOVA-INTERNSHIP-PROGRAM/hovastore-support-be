@@ -2,6 +2,7 @@ import Category from "../models/categories.model";
 import * as categoryService from "../services/category.services";
 import translateText from "../utils/TranslateLanguage";
 
+
 import {
   validateCreateCategory,
   validateUpdateCategory,
@@ -53,7 +54,7 @@ export const createCategory = async (req, res) => {
 export const getCategories = async (req, res) => {
   try {
     const category = await categoryService.getCat();
-    const translatedText = await translateText('Hello, world!', 'en', 'es');
+    const translatedText = await translateText ("hello world", "de")
     console.log(translatedText);
     return res.status(200).json({
       status: "200",
