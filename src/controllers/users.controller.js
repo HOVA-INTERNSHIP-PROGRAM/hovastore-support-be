@@ -158,7 +158,6 @@ export const forgotPassword = async (req, res) => {
 export const resetPassword = async (req, res) => {
     try{
       const { id, resetToken } = req.params;
-      // const { password, confirmPassword } = req.body;
       const { error, value } = validateResetPassword(req.body);
       if (error) {
         return res.status(400).json({ message: error.details[0].message });

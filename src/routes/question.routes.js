@@ -10,7 +10,7 @@ import {
  } from "../controllers/question.controller";
 
  const questionRoute = express.Router();
- questionRoute.post("/:categoryId",Auth,fileUpload.single("question"),createAQuestion);
+ questionRoute.post("/:categoryId/category",Auth,fileUpload.single("question"),createAQuestion);
  questionRoute.get("/",viewAll);
  questionRoute.get("/:questionId", viewOneQuestion);
  questionRoute.put("/:questionId",Auth,fileUpload.single("question"),updateAQuestion);

@@ -275,7 +275,7 @@ const options = {
                     },
                 },
             },
-        "/api/v1/users/reset-password/{resetToken}/{id}": {
+        "/api/v1/users/reset-password/{id}/{resetToken}": {
                 post: {
                     tags: ["Users"],
                     summary: "Forgot Password",
@@ -384,7 +384,7 @@ const options = {
                 },
             },
         },
-        "/api/v1/categories/{categoryId}": {
+        "/api/v1/categories/{id}": {
             get: {
                 tags: ["Categories"],
                 summary: "Read Category By ID",
@@ -493,7 +493,7 @@ const options = {
             },
         },
         //Question side
-        "/api/v1/questions/{categoryId}": {
+        "/api/v1/questions/{categoryId}/category": {
             post: {
                 tags: ["Question"],
                 summary: "Create Question",
@@ -671,7 +671,7 @@ const options = {
                 },
             },
         },
-        "/api/v1/answers/{questionId}": {
+        "/api/v1/answers/{questionId}/question": {
             post: {
                 tags: ["Answers"],
                 summary: "Create Answer",
