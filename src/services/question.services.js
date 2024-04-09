@@ -1,23 +1,23 @@
 import Questions from "../models/question.models";
 // service to add new question
 export const createQuestion = async (questionData, categoryId, user) => {
-  const { questionPhrase } = questionData;
+  const { addQuestion } = questionData;
 
   const question = await Questions.create({
-    questionPhrase,
+    question,
     categoryId,
     userId: user,
   });
 
-  return question;
+  return addQuestion;
 };
 
 // service to update question
 export const updateExistQuestion = async (questionId, questionData) => {
-  const { questionPhrase } = questionData;
+  const { question } = questionData;
 
   return await Questions.findByIdAndUpdate(questionId, {
-    questionPhrase,
+    question,
   });
 };
 

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 const questionSchema = new mongoose.Schema({
-    questionPhrase: {
+    question: {
         type: String,
         require: true,
     },

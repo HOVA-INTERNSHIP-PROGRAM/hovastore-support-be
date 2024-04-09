@@ -14,7 +14,7 @@ export const createAQuestion = async (req, res) => {
     });
   }
   const { categoryId } = req.params;
-  const { questionPhrase } = req.body;
+  const { question } = req.body;
   const checkCategory = await Category.findById(categoryId);
   if (!checkCategory) {
     return res.status(404).json({
@@ -23,7 +23,7 @@ export const createAQuestion = async (req, res) => {
     });
   }
   const checkQuestin = await Questions.findOne({
-    questionPhrase: questionPhrase,
+    question: question,
   });
   if (checkQuestin) {
     if (checkQuestin.categoryId == categoryId) {
@@ -64,9 +64,9 @@ export const updateAQuestion = async (req, res) => {
   }
   try {
     const { questionId } = req.params;
-    const { questionPhrase } = req.body;
+    const { question } = req.body;
     const checkQuestin = await Questions.findOne({
-      questionPhrase: questionPhrase,
+      question: question,
     });
 
     if (checkQuestin) {
