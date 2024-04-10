@@ -2,8 +2,8 @@ import User from "../models/user.models";
 import bcrypt from "bcrypt";
 import { uploadToCloud } from "../helper/cloud";
 import { sendResetEmail } from "../utils/emailTemplate";
-import Token from "../models/resetToken.model";
-import crypto from "crypto";
+import Code from "../models/resetCode.model";
+
 // Service to find all users
 export const findAllUsers = async () => {
   return await User.find();
@@ -75,25 +75,25 @@ export const forgotPasswordService = async (userEmail) => {
       throw new Error("user not found");
     } 
     
-    const resetToken = crypto.randomBytes(32).toString("hex");
-    await Token.create({
-      token: resetToken,
+    const resetCode = parseInt(Array.from({length: 6}, () => Math.floor(Math.random() * 10)).join(''));
+    await Code.create({
+      code: resetCode,
       user: user._id,
     });
-    const link = `https://hovastore-support-be.onrender.com/api/v1/users/reset-password/${user._id}/${resetToken}`;
-    sendResetEmail(user.email, user.name, link);
+    const link = `https://hovastore-support-be.onrender.com/api/v1/users/reset-password/${user._id}`;
+    sendResetEmail(user.email, user.name, link, resetCode);
     console.log(link);
 };
 
 // service to reset password
-export const resetPasswordService = async (id, resetToken, password, confirmPassword) => {
+export const resetPasswordService = async (id, resetCode, password, confirmPassword) => {
   const user = await User.findById(id);
       if(!user){
         throw new Error("user not found");
       }
-      const validatedLinkToken = await Token.findOne({token: resetToken});
-      if(!validatedLinkToken){
-        throw new Error("Password reset link is not valid");
+      const code = await Code.findOne({code: resetCode});
+      if(!code){
+        throw new Error("Invalid Code");
       } 
       if(password != confirmPassword){
         throw new Error("Two passwords does not match");
@@ -102,7 +102,7 @@ export const resetPasswordService = async (id, resetToken, password, confirmPass
       const salt = await bcrypt.genSalt(10);
       const hashedPass = await bcrypt.hash(password, salt);
       await User.findByIdAndUpdate(id, {password: hashedPass});
-      await Token.findByIdAndDelete(validatedLinkToken._id);
+      await Code.findByIdAndDelete(code._id);
 };
 
 
