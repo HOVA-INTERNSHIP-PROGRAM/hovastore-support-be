@@ -1,4 +1,5 @@
 import express from "express";
+import { string } from "joi";
 import { serve, setup } from "swagger-ui-express";
 
 const docrouter = express.Router();
@@ -264,7 +265,7 @@ const options = {
                     },
                     responses: {
                         200: {
-                            description: "Password reset link sent to your email",
+                            description: "Code to reset your password is sent to your email",
                         },
                         400: {
                             description: "Bad Request",
@@ -275,20 +276,12 @@ const options = {
                     },
                 },
             },
-        "/api/v1/users/reset-password/{id}/{resetToken}": {
+        "/api/v1/users/reset-password/{id}": {
                 post: {
                     tags: ["Users"],
-                    summary: "Forgot Password",
-                    description: "Forgot Password",
+                    summary: "Reset Password",
+                    description: "Reset Password",
                     parameters: [
-                        {
-                            name: "resetToken",
-                            in: "path",
-                            required: true,
-                            schema: {
-                                type: "string",
-                            },
-                        },
                         {
                             name: "id",
                             in: "path",
@@ -309,6 +302,9 @@ const options = {
                                             type: "string",
                                         },
                                         confirmPassword: {
+                                            type: "string",
+                                        },
+                                        code: {
                                             type: "string",
                                         },
                                     },

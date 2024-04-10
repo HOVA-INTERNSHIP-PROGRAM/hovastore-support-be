@@ -29,7 +29,8 @@ const forgotPasswordSchema = Joi.object({
 // Validation schema for forgot password
 const resetPasswordSchema = Joi.object({
   password: Joi.string().required(), 
-  confirmPassword: Joi.string().required(), 
+  confirmPassword: Joi.string().required(),
+  code: Joi.string().required(), 
 });
 
 // Function to validate user creation

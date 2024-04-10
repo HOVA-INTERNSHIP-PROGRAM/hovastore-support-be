@@ -14,12 +14,19 @@ export const sendEmailToAdmin = (email, name) => {
     sendMail(emailTemplate)
 };
 
-export const sendResetEmail = (email, name, link) => {
+export const sendResetEmail = (email, name, link, resetCode) => {
     const emailTemplate = {
         emailTo: email,
-        subject: "⚠ Password reset link",
-        message: `<h1>Dear Admin, ${name}</h1></br>
-        to reset your password click <a href="${link}" target="_blank">${link}</a><br/><br/>
+        subject: "Password reset Code",
+        message: `<h1>Dear ${name},</h1></br>
+        <h3>Reset Code: ${resetCode}</h3><br>
+        To reset your password click this link: ${link} <br>
+        For any reason if the link is not working you can click reset password button below.<br><br>
+        <a href="${link}" style="background-color:#ad498c;width:8rem;height:2rem;padding:8px;color:white;font-weight:600;border-radius:10px;text-decoration:none;">
+        Reset Password
+        </a><br><br>
+        Reset password code is only valid for <b>15 minutes</b>.
+        <br/><br/>
         The Hover Ai Team<br/>`,
     };
 
