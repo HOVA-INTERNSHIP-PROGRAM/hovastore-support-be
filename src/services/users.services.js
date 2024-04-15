@@ -75,33 +75,33 @@ export const forgotPasswordService = async (userEmail) => {
       throw new Error("user not found");
     } 
     
-    const resetCode = parseInt(Array.from({length: 6}, () => Math.floor(Math.random() * 10)).join(''));
+    const resetCode = Math.floor(100000 + Math.random() * 900000);
     await Code.create({
       code: resetCode,
       user: user._id,
     });
-    const link = `https://hovastore-support-be.onrender.com/api/v1/users/reset-password/${user._id}`;
+    const link = `https://hovastore-support-be.onrender.com/api/v1/users/reset-password`;
     sendResetEmail(user.email, user.name, link, resetCode);
-    console.log(link);
 };
 
 // service to reset password
-export const resetPasswordService = async (id, resetCode, password, confirmPassword) => {
-  const user = await User.findById(id);
-      if(!user){
-        throw new Error("user not found");
-      }
+export const resetPasswordService = async (resetCode, password, confirmPassword) => {
       const code = await Code.findOne({code: resetCode});
       if(!code){
         throw new Error("Invalid Code");
       } 
+      const userId = code.user;
+      const user = await User.findById(userId);
+      if(!user){
+        throw new Error("user not found");
+      }
       if(password != confirmPassword){
         throw new Error("Two passwords does not match");
       }
       
       const salt = await bcrypt.genSalt(10);
       const hashedPass = await bcrypt.hash(password, salt);
-      await User.findByIdAndUpdate(id, {password: hashedPass});
+      await User.findByIdAndUpdate(userId, {password: hashedPass});
       await Code.findByIdAndDelete(code._id);
 };
 

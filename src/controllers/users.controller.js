@@ -154,12 +154,11 @@ export const forgotPassword = async (req, res) => {
 // reset password controller
 export const resetPassword = async (req, res) => {
     try{
-      const { id } = req.params;
       const { error, value } = validateResetPassword(req.body);
       if (error) {
         return res.status(400).json({ message: error.details[0].message });
       }
-      await UserService.resetPasswordService(id, value.code, value.password, value.confirmPassword);
+      await UserService.resetPasswordService(value.code, value.password, value.confirmPassword);
       return res.status(200).json({
         status: "200",
         message: "Password changed!.. you can now login with new password",

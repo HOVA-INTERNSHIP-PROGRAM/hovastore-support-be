@@ -276,21 +276,11 @@ const options = {
                     },
                 },
             },
-        "/api/v1/users/reset-password/{id}": {
+        "/api/v1/users/reset-password": {
                 post: {
                     tags: ["Users"],
                     summary: "Reset Password",
                     description: "Reset Password",
-                    parameters: [
-                        {
-                            name: "id",
-                            in: "path",
-                            required: true,
-                            schema: {
-                                type: "string",
-                            },
-                        },
-                    ],
                     requestBody: {
                         content: {
                             "multipart/form-data": {
