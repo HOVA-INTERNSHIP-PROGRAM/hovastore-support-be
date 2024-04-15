@@ -52,10 +52,12 @@ export const createCategory = async (req, res) => {
 
 // constroller to retrieve all categories
 export const getCategories = async (req, res) => {
+  const text = "hello world";
+  const lang = "de"
   try {
     const category = await categoryService.getCat();
-    const translatedText = await translateText ("hello world", "de")
-    console.log(translatedText);
+    const translatedText = await translateText (text, lang);
+    console.log("translatedText", translatedText);
     return res.status(200).json({
       status: "200",
       message: "Categories are retrieve successfully",

@@ -4,8 +4,8 @@ async function translateText(text, targetLang) {
 
     try {
         const translate = (await import('translate')).default;
-        const res = await translate(text, { to: targetLang });
-        return res.text;
+        const res = await translate(text, targetLang);
+        return res
     } catch (err) {
         console.error(err);
         return null;
