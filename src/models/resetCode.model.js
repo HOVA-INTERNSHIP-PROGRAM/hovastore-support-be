@@ -5,12 +5,11 @@ const resetCodeSchema = new mongoose.Schema({
         type: String,
         required: true,
         length: 6,
+        unique: true,
     },
     user: {
-        type: {
-            type: mongoose.Schema.ObjectId,
-            ref: "users",
-        },
+        type: mongoose.Schema.ObjectId,
+        ref: "User",
     },
     expireAt: {
         type: Date,

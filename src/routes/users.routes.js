@@ -10,6 +10,6 @@ userRoute.put("/:id", fileUpload.single("img"), updateUser);
 userRoute.delete("/:id", deleteUser);
 userRoute.post("/auth", fileUpload.single("files"), login);
 userRoute.post("/forgot-password", fileUpload.single("files"), forgotPassword);
-userRoute.post("/reset-password/:id", fileUpload.single("files"), resetPassword);
+userRoute.post("/reset-password", fileUpload.single("files"), resetPassword);
 
 export default userRoute;
