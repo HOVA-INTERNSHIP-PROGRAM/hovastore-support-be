@@ -786,6 +786,109 @@ const options = {
                 },
             },
         },
+        // Feedback Documentation
+        "/api/v1/feedbacks": {
+            get: {
+                tags: ["Feedback"],
+                summary: "Get All Feedbacks",
+                description: "Get all Feedbacks",
+                responses: {
+                    200: {
+                        description: "All Feedbacks are retrieved successfully",
+                    },
+                    500: {
+                        
+                        description: "Internal Server Error",
+                    },
+                },
+            },
+            post: {
+                tags: ["Feedback"],
+                summary: "Create Feedback",
+                description: "Create New Feedback",
+                requestBody: {
+                    content: {
+                        "multipart/form-data": {
+                            schema: {
+                                type: "object",
+                                properties: {
+                                    names: {
+                                        type: "string",
+                                    },
+                                    email: {
+                                        type: "string",
+                                    },
+                                    feedback: {
+                                        type: "string",
+                                    },
+                                   
+                                },
+                            },
+                        },
+                    },
+                    required: true,
+                },
+                responses: {
+                    201: {
+                        description: "Feedback Added",
+                    },
+                    400: {
+                        description: "Bad Request",
+                    },
+                    500: {
+                        description: "Internal Server Error",
+                    },
+                },
+            },
+        },
+        "/api/v1/feedbacks/{id}": {
+            get: {
+                tags: ["Feedback"],
+                summary: "Get Feedback by ID",
+                description: "Get Feedback by ID",
+                parameters: [
+                    {
+                        name: "id",
+                        in: "path",
+                        required: true,
+                        schema: {
+                            type: "string",
+                        },
+                    },
+                ],
+                responses: {
+                    200: {
+                        description: "Feedback Retrieved successfully",
+                    },
+                    500: {
+                        description: "Internal Server Error",
+                    },
+                },
+            },
+            delete: {
+                tags: ["Feedback"],
+                summary: "Delete Feedback by ID",
+                description : "Delete Feedback by ID",
+                parameters: [
+                    {
+                        name: "id",
+                        in: "path",
+                        required: true,
+                        schema: {
+                            type: "string",
+                        },
+                    },
+                ],
+                responses: {
+                    200: {
+                        description: "Feedback Deleted",
+                    },
+                    500: {
+                        description: "Internal Server Error",
+                    },
+                },
+            }
+        },
     },
     
     components: {

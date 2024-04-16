@@ -4,6 +4,7 @@ import userRoute from "./users.routes";
 import categoryRoute from "./category.routes";
 import questionRoute from "./question.routes";
 import answerRoute from "./answer.routes";
+import feedbackRouter from "./feedback.routes";
 
 const router = express.Router();
 
@@ -15,6 +16,7 @@ router.use("/users", userRoute)
 router.use("/categories", categoryRoute);
 router.use("/questions", questionRoute);
 router.use("/answers", answerRoute);
+router.use("/feedbacks", feedbackRouter);
 
 
 
