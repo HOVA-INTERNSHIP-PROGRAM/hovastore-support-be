@@ -1,11 +1,11 @@
 import Questions from "../models/question.models";
 // service to add new question
-export const createQuestion = async (questionData, categoryId, user) => {
+export const createQuestion = async (questionData, articleId, user) => {
   const { question } = questionData;
 
   const addQuestion = await Questions.create({
     question,
-    categoryId,
+    articleId,
     userId: user,
   });
 
@@ -31,7 +31,7 @@ export const findAllQuestions = async () => {
         select: "name img",
       })
       .populate({ path: "answers" })
-      .populate({ path: "categoryId", select: "name description icon" });
+      .populate({ path: "articleId", select: "title createdAt" });
 
     return questions;
   } catch (error) {
@@ -48,7 +48,7 @@ export const findSingleQuestion = async (questionId) => {
       select: "name img",
     })
     .populate({ path: "answers" })
-    .populate({ path: "categoryId", select: "name description icon" });
+    .populate({ path: "articleId", select: "title createdAt" });
 };
 
 // service to delete a qustion

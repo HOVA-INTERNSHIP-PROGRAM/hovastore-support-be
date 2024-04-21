@@ -5,9 +5,9 @@ const questionSchema = new mongoose.Schema(
       type: String,
       require: true,
     },
-    categoryId: {
+    articleId: {
       type: mongoose.Schema.ObjectId,
-      ref: "category",
+      ref: "articles",
     },
     userId: {
       type: mongoose.Schema.ObjectId,
