@@ -371,7 +371,7 @@ const options = {
         },
       },
     },
-    "/api/v1/categories/{id}": {
+    "/api/v1/categories/{categoryId}": {
       get: {
         tags: ["Categories"],
         summary: "Read Category By ID",

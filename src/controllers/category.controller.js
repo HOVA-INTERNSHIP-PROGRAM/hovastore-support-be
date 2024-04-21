@@ -67,8 +67,8 @@ export const getCategories = async (req, res) => {
 // controller to retrieve single category by id
 export const getOneCategory = async (req, res) => {
   try {
-    const { id } = req.params;
-    const category = await categoryService.getOneCat(id);
+    const { categoryId } = req.params;
+    const category = await categoryService.getOneCat(categoryId);
 
     if (!category) {
       return res.status(404).json({
