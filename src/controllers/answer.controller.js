@@ -15,8 +15,8 @@ export const createAnswer = async (req, res) => {
     });
   }
 
-  const {questionId } = req.params;
-  const { step } = req.body;
+  const { questionId } = req.params;
+  const { title } = req.body;
   const checkQuestion = await Questions.findById(questionId);
   if (!checkQuestion) {
     return res.status(404).json({
@@ -24,12 +24,12 @@ export const createAnswer = async (req, res) => {
       message: "Question not found",
     });
   }
-  const checkAnswer = await Answers.findOne({ step: step });
+  const checkAnswer = await Answers.findOne({ title: title });
   if (checkAnswer) {
     if (checkAnswer.questionId == questionId) {
       return res.status(400).json({
         status: "400",
-        message: "The Answer step already exist on this qauestion",
+        message: "The Answer title already exist on this qauestion",
       });
     }
   }
@@ -113,8 +113,8 @@ export const updateAnswer = async (req, res) => {
 
   try {
     const { answerId } = req.params;
-    const { answerStep } = req.body;
-    const checkAnswer = await Answers.findOne({ step: answerStep });
+    const { title } = req.body;
+    const checkAnswer = await Answers.findOne({ title: title });
 
     if (checkAnswer) {
       if (checkAnswer._id != answerId) {

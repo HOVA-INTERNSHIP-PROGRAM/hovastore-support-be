@@ -848,13 +848,13 @@ const options = {
               schema: {
                 type: "object",
                 properties: {
-                  step: {
+                  title: {
                     type: "string",
                   },
-                  stepDescription: {
+                  description: {
                     type: "string",
                   },
-                  stepImage: {
+                  image: {
                     type: "string",
                     format: "binary",
                   },
@@ -898,13 +898,13 @@ const options = {
               schema: {
                 type: "object",
                 properties: {
-                  step: {
+                  title: {
                     type: "string",
                   },
-                  stepDescription: {
+                  description: {
                     type: "string",
                   },
-                  stepImage: {
+                  image: {
                     type: "string",
                     format: "binary",
                   },

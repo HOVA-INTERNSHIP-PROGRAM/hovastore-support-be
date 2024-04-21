@@ -5,13 +5,13 @@ import { uploadToCloud } from "../helper/cloud";
 //service to add answer to question
 
 export const addAnswer = async (answerData, questionId, file, user) => {
-  const { step, stepDescription } = answerData;
+  const { title, description } = answerData;
   let savedImage;
   if (file) savedImage = await uploadToCloud(file);
   return await Answers.create({
-    step,
-    stepImage: savedImage?.secure_url,
-    stepDescription,
+    title,
+    image: savedImage?.secure_url,
+    description,
     questionId,
     userId: user,
   });
@@ -20,13 +20,13 @@ export const addAnswer = async (answerData, questionId, file, user) => {
 // service to update answer
 
 export const updateAnswer = async (answerId, answerData, file) => {
-  const { step, stepDescription } = answerData;
+  const { title, description } = answerData;
   let updatedImage;
   if (file) updatedImage = await uploadToCloud(file);
   return await Answers.findByIdAndUpdate(answerId, {
-    step,
-    stepImage: updatedImage?.secure_url,
-    stepDescription,
+    title,
+    image: updatedImage?.secure_url,
+    description,
   });
 };
 
@@ -37,7 +37,7 @@ export const getAllAnswers = async () => {
     const answer = await Answers.find().populate({
       path: 'userId',
       select: 'name img'
-    }).populate({ path: 'questionId', select: 'questionPhrase' });
+    }).populate({ path: 'questionId', select: 'question' });
     return answer;
   } catch (error) {
     throw new Error("Failed to retrieve answers: " + error.message);
@@ -50,7 +50,7 @@ export const getSingleAnswer = async (answerId) => {
   return await Answers.findById(answerId).populate({
     path: 'userId',
     select: 'name img'
-  }).populate({ path: 'questionId', select: 'questionPhrase' });
+  }).populate({ path: 'questionId', select: 'question' });
 };
 
 // service to delete answer

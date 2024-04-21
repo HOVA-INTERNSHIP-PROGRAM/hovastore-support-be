@@ -30,8 +30,7 @@ export const findAllQuestions = async () => {
         path: "userId",
         select: "name img",
       })
-      .populate({ path: "answers" })
-      .populate({ path: "articleId", select: "title createdAt" });
+      .populate({ path: "answers" });
 
     return questions;
   } catch (error) {
@@ -47,8 +46,7 @@ export const findSingleQuestion = async (questionId) => {
       path: "userId",
       select: "name img",
     })
-    .populate({ path: "answers" })
-    .populate({ path: "articleId", select: "title createdAt" });
+    .populate({ path: "answers" });
 };
 
 // service to delete a qustion
