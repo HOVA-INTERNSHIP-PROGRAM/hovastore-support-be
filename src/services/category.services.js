@@ -2,7 +2,7 @@ import Category from "../models/categories.model";
 import { uploadToCloud } from "../helper/cloud";
 
 // service to create a category
-export const createCat = async (catData, file , user) => {
+export const createCat = async (catData, file, user) => {
   const { name, description } = catData;
   let result;
   if (file) result = await uploadToCloud(file);
@@ -17,31 +17,34 @@ export const createCat = async (catData, file , user) => {
 // service to retrieve all categories
 export const getCat = async () => {
   return await Category.find().populate({
-    path: 'userId',
-    select: 'name img' 
+    path: "userId",
+    select: "name img",
   });
 };
 
 // service to retrieve a single category by id
-export const getOneCat = async (id) => {
-  return await Category.findById(id)
+export const getOneCat = async (categoryId) => {
+  return await Category.findById(categoryId)
     .populate({
-      path: 'userId',
-      select: 'name img'
+      path: "userId",
+      select: "name img",
     })
     .populate({
-      path: 'questions',
-      select: 'questionPhrase categoryId createdAt',
+      path: "articles",
+      select: "title categoryId createdAt",
       populate: {
-        path: 'answers',
-        select: 'step stepImage stepDescription questionId userId'
-      }
+        path: "questions",
+        select: "question articleId answers",
+        populate: {
+          path: "answers",
+          select: "title image description questionId createdAt",
+        },
+      },
     });
 };
 
-
 // service to updated category info by id
-export const updateCategory = async (id, catData, file , user) => {
+export const updateCategory = async (id, catData, file, user) => {
   const { name, description } = catData;
   let result;
   if (file) result = await uploadToCloud(file);
@@ -49,12 +52,11 @@ export const updateCategory = async (id, catData, file , user) => {
     name,
     description,
     icon: result?.secure_url,
-    userId: user
+    userId: user,
   });
 };
-
 
 // service delete a category
 export const deleteCategory = async (id) => {
   await Category.findByIdAndDelete(id);
-}
+};

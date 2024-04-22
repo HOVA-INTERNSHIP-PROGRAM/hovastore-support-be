@@ -17,8 +17,8 @@ const categorySchema = new mongoose.Schema(
     userId:{
       type: mongoose.Schema.ObjectId, ref:"users",
     },
-    questions: [{
-      type: mongoose.Schema.ObjectId, ref:"questions",
+    articles: [{
+      type: mongoose.Schema.ObjectId, ref:"articles",
     }],
   },
   {

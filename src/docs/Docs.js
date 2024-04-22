@@ -371,7 +371,7 @@ const options = {
         },
       },
     },
-    "/api/v1/categories/{id}": {
+    "/api/v1/categories/{categoryId}": {
       get: {
         tags: ["Categories"],
         summary: "Read Category By ID",
@@ -549,7 +549,7 @@ const options = {
         },
       },
     },
-    "/api/v1/articles/{questionId}": {
+    "/api/v1/articles/{articleId}": {
       get: {
         tags: ["Articles"],
         summary: "Read article by ID",
@@ -652,14 +652,14 @@ const options = {
     },
 
     //Question side
-    "/api/v1/questions/{categoryId}/category": {
+    "/api/v1/questions/{articleId}/article": {
       post: {
         tags: ["Question"],
         summary: "Create Question",
-        description: "Category ID to create a new Question",
+        description: "Article ID to create a new Question",
         parameters: [
           {
-            name: "categoryId",
+            name: "articleId",
             in: "path",
             required: true,
             schema: {
@@ -698,7 +698,7 @@ const options = {
     "/api/v1/questions": {
       get: {
         tags: ["Question"],
-        summary: "Get all Questions for category you want",
+        summary: "Get all Questions for article you want",
         description: "View all questions",
         responses: {
           200: {
