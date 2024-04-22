@@ -787,25 +787,21 @@ const options = {
             },
         },
         // Feedback Documentation
-        "/api/v1/feedbacks": {
-            get: {
-                tags: ["Feedback"],
-                summary: "Get All Feedbacks",
-                description: "Get all Feedbacks",
-                responses: {
-                    200: {
-                        description: "All Feedbacks are retrieved successfully",
-                    },
-                    500: {
-                        
-                        description: "Internal Server Error",
-                    },
-                },
-            },
+        "/api/v1/feedbacks/{questionId}/question":{
             post: {
                 tags: ["Feedback"],
                 summary: "Create Feedback",
                 description: "Create New Feedback",
+                parameters: [
+                    {
+                        name: "questionId",
+                        in: "path",
+                        required: true,
+                        schema: {
+                            type: "string",
+                        },
+                    },
+                ],
                 requestBody: {
                     content: {
                         "multipart/form-data": {
@@ -836,6 +832,22 @@ const options = {
                         description: "Bad Request",
                     },
                     500: {
+                        description: "Internal Server Error",
+                    },
+                },
+            },
+        },
+        "/api/v1/feedbacks": {
+            get: {
+                tags: ["Feedback"],
+                summary: "Get All Feedbacks",
+                description: "Get all Feedbacks",
+                responses: {
+                    200: {
+                        description: "All Feedbacks are retrieved successfully",
+                    },
+                    500: {
+                        
                         description: "Internal Server Error",
                     },
                 },

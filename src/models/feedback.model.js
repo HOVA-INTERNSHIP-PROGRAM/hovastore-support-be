@@ -12,6 +12,10 @@ const feedbackSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    question: {
+        type: mongoose.Schema.ObjectId,
+        ref: "questions",
+    },
 },
 {
     timestamps: true,

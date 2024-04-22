@@ -48,12 +48,14 @@ export const createFeedback = async (req, res) => {
         });
     }
     try {
+        const { questionId } = req.params;
         const { names, email, feedback } = value;
-        const createdFeedback = await feedbackService.createFeedback({
+        const createdFeedback = await feedbackService.createFeedback(
             names,
             email,
             feedback,
-        });
+            questionId
+        );
         return res.status(201).json({
             status: "201",
             message: "Feedback created",
