@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Internationalization setup
 const i18n = new I18n();
 i18n.configure({
-  locales: ['en','fr', 'rw'],
+  locales: ['en','fr','rw','de'],
   directory: path.join(__dirname, './locales'),
   defaultLocale: 'en',
   queryParameter: 'lang',
