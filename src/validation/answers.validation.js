@@ -1,16 +1,16 @@
 import Joi from "joi";
 
 const createAnswerSchema = Joi.object({
-    step: Joi.string(),
-    stepImage: Joi.string().optional(),
-    stepDescription: Joi.string().optional()
+    title: Joi.string(),
+    image: Joi.string().optional(),
+    description: Joi.string().optional()
 });
 
 const updateAnswerSchema = Joi.object({
-    step: Joi.string().optional(),
-    stepImage: Joi.string().optional(),
-    stepDescription: Joi.string().optional()
-}).or('step', 'stepImage', 'stepDescription');
+    title: Joi.string().optional(),
+    image: Joi.string().optional(),
+    description: Joi.string().optional()
+}).or('title', 'image', 'description');
 
 // Function to validate Answer creation
 export const validateCreateAnswer = (answerData) => {

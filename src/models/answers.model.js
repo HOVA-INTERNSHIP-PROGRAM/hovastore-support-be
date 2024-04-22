@@ -1,13 +1,13 @@
 import mongoose from "mongoose";
 const answerSchema = new mongoose.Schema({
-    step: {
+    title: {
         type:String,
         require: true,
     },
-    stepImage: [{
+    image: [{
         type: String,
     }],
-    stepDescription: {
+    description: {
         type:String,
         require: false,
     },
