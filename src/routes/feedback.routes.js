@@ -5,9 +5,9 @@ import Auth from "../middleware/auth"
 
 const feedbackRouter = express.Router();
 
-feedbackRouter.get('/', Auth, getFeedbacks);
-feedbackRouter.get('/:id', Auth, getFeedback);
-feedbackRouter.post('/', fileUpload.single('files'), createFeedback);
+feedbackRouter.get('/', getFeedbacks);
+feedbackRouter.get('/:id', getFeedback);
+feedbackRouter.post('/:questionId/question', fileUpload.single('files'), createFeedback);
 feedbackRouter.delete('/:id', Auth, deleteFeedback);
 
 export default feedbackRouter;

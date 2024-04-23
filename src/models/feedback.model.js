@@ -7,10 +7,15 @@ const feedbackSchema = new mongoose.Schema({
     },
     email: {
         type: String,
+        required: true,
     },
     feedback: {
         type: String,
         required: true,
+    },
+    question: {
+        type: mongoose.Schema.ObjectId,
+        ref: "questions",
     },
 },
 {
