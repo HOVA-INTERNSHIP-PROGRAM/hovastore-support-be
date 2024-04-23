@@ -19,6 +19,12 @@ const questionSchema = new mongoose.Schema(
         ref: "answers",
       },
     ],
+    feedbacks: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: "Feedback",
+      }
+    ]
   },
   { timestamps: true }
 );
