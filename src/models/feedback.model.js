@@ -17,11 +17,17 @@ const feedbackSchema = new mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         ref: "questions",
     },
+    replies: [
+        {
+            type: mongoose.Schema.ObjectId,
+            ref: "reply",
+        },
+    ],
 },
 {
     timestamps: true,
 }
 );
 
-const Feedback = mongoose.model('Feedback', feedbackSchema);
+const Feedback = mongoose.model('feedback', feedbackSchema);
 export default Feedback;
