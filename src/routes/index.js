@@ -6,6 +6,7 @@ import articleRoute from "./article.routes";
 import questionRoute from "./question.routes";
 import answerRoute from "./answer.routes";
 import feedbackRouter from "./feedback.routes";
+import replyRoute from "./Reply.routes";
 
 const router = express.Router();
 
@@ -18,5 +19,6 @@ router.use("/articles", articleRoute);
 router.use("/questions", questionRoute);
 router.use("/answers", answerRoute);
 router.use("/feedbacks", feedbackRouter);
+router.use('/replies', replyRoute)
 
 export default router;
