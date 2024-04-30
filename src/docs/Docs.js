@@ -325,6 +325,56 @@ const options = {
         },
       },
     },
+    "/api/v1/users/change-password/{id}": {
+      post: {
+        tags: ["Users"],
+        summary: "Change Password",
+        description: "Change Password",
+        parameters: [
+          {
+            name: "id",
+            in: "path",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        requestBody: {
+          content: {
+            "multipart/form-data": {
+              schema: {
+                type: "object",
+                properties: {
+                  current_password: {
+                    type: "string",
+                  },
+                  new_password: {
+                    type: "string",
+                  },
+                  confirm_password: {
+                    type: "string",
+                  },
+                },
+              },
+            },
+          },
+          required: true,
+        },
+        responses: {
+          200: {
+            description:
+              "Password Updated",
+          },
+          400: {
+            description: "Bad Request",
+          },
+          500: {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
 
     "/api/v1/categories": {
       get: {

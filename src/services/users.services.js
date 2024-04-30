@@ -106,5 +106,25 @@ export const resetPasswordService = async (resetCode, password, confirmPassword)
 };
 
 
+// service to change user password
+export const changePassword = async (id, passData) => {
+  const { current_password, new_password, confirm_password } = passData;
+  const user = await User.findById(id)
+    if(!user){
+      throw new Error("User not found");
+    }
+    const passwordMatch = await bcrypt.compare( current_password, user.password)
+    if(!passwordMatch){
+      throw new Error("Invalid Password");
+    }
+    if(new_password != confirm_password){
+      throw new Error("Two Passwords do not match");
+    }
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(new_password, salt);
+    await User.findByIdAndUpdate(id, {
+      password: hashedPassword,
+    });
+};
 
 

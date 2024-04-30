@@ -2,8 +2,7 @@
 import * as UserService from "../services/users.services"
 import { sendEmailToAdmin } from "../utils/emailTemplate";
 import generateToken from "../utils/generateToken";
-import { validateCreateUser, validateUpdateUser, validateForgotPassword, validateResetPassword } from "../validation/users.validation";
-
+import { validateCreateUser, validateUpdateUser, validateForgotPassword, validateResetPassword, ValidateChangePassword } from "../validation/users.validation";
 // getAllUsers controller
 export const getAllUsers = async (req, res) => {
   try {
@@ -169,6 +168,28 @@ export const resetPassword = async (req, res) => {
     return res.status(500).json({
       status: "500",
       message: "failed to reset password",
+      error: error.message,
+    });
+  }
+};
+
+// controller to change password
+export const changePassword = async (req, res) => {
+  try {    
+    const { id } = req.params;
+    const { error, value } = ValidateChangePassword(req.body);
+    if(error){
+      return res.status(400).json({ message: error.details[0].message});
+    }
+    await UserService.changePassword(id, value);
+    return res.status(200).json({
+      status: "200",
+      message: "Password Updated",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: "500",
+      message: "failed to change password",
       error: error.message,
     });
   }
