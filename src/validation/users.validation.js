@@ -33,6 +33,13 @@ const resetPasswordSchema = Joi.object({
   code: Joi.string().required(), 
 });
 
+// Validation schema for change password
+const changePasswordSchema = Joi.object({
+  current_password: Joi.string().required(), 
+  new_password: Joi.string().required(),
+  confirm_password: Joi.string().required(), 
+});
+
 // Function to validate user creation
 export const validateCreateUser = (userData) => {
   return createUserSchema.validate(userData);
@@ -56,4 +63,9 @@ export const validateForgotPassword = (email) => {
 // Function to validate reset password
 export const validateResetPassword = (userData) => {
   return resetPasswordSchema.validate(userData);
+};
+
+// Function to validate change password
+export const ValidateChangePassword = (userData) => {
+  return changePasswordSchema.validate(userData);
 };
