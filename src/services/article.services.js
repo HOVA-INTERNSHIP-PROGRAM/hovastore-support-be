@@ -29,6 +29,29 @@ export const findAllArticles = async (categoryId) => {
     // Convert categoryId to ObjectId
     const categoryIdObj = new mongoose.Types.ObjectId(categoryId);
     const articles = await Articles.find({ categoryId: categoryIdObj })
+      .populate({
+        path: 'userId',
+        select: 'name img'
+      })
+      .populate({
+        path: 'questions',
+        select: 'question categoryId createdAt',
+        populate: {
+          path: 'answers',
+          select: 'title image description questionId userId'
+        }
+      });
+
+    return articles;
+  } catch (error) {
+    throw new Error("Failed to retrieve questions: " + error.message);
+  }
+};
+
+// service to get single article
+
+export const findSingleArticle = async (articleId) => {
+  return await Articles.findById(articleId)
     .populate({
       path: 'userId',
       select: 'name img'
@@ -41,29 +64,6 @@ export const findAllArticles = async (categoryId) => {
         select: 'title image description questionId userId'
       }
     });
-
-    return articles;
-  } catch (error) {
-    throw new Error("Failed to retrieve questions: " + error.message);
-  }
-};
-
-// service to get single article
-
-export const findSingleArticle = async (articleId) => {
-  return await Articles.findById(articleId)
-  .populate({
-    path: 'userId',
-    select: 'name img'
-  })
-  .populate({
-    path: 'questions',
-    select: 'question categoryId createdAt',
-    populate: {
-      path: 'answers',
-      select: 'title image description questionId userId'
-    }
-  });
 };
 
 // service to delete a article
