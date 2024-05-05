@@ -155,6 +155,31 @@ export const viewOneArticle = async (req, res) => {
   }
 };
 
+// getOnebookByTitle
+
+export const findArticlesByCategoryTitle = async (req, res) => {
+  const { categoryTitle } = req.params;
+  try {
+    const category = await Category.findOne({ name: categoryTitle }).populate({ path: 'articles', populate: { path: 'questions' } });
+    if (!category) {
+      return res.status(404).json({ status: "404", message: "Category not found" });
+    }
+
+    return res.status(200).json({
+      status: "200",
+      message: "Articles retrieved successfully",
+      data: category.articles
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      status: "500",
+      message: "Failed to retrieve articles",
+      error: error.message
+    });
+  }
+};
+
 // delete an article
 
 export const deleteArticle = async (req, res) => {
