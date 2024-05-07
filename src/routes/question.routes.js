@@ -8,6 +8,7 @@ import {
     viewOneQuestion,
     deleteQuestion,
     like,
+    disLike,
  } from "../controllers/question.controller";
 
  const questionRoute = express.Router();
@@ -16,6 +17,7 @@ import {
  questionRoute.get("/:questionId", viewOneQuestion);
  questionRoute.put("/:questionId",Auth,fileUpload.single("question"),updateAQuestion);
  questionRoute.delete("/:questionId",Auth,fileUpload.single("question"),deleteQuestion);
- questionRoute.post("/like/:questionId",like)
+ questionRoute.post("/like/:questionId",like);
+ questionRoute.post("/dislike/:questionId",disLike);
 
  export default questionRoute;
