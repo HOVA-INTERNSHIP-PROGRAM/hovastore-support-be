@@ -19,6 +19,10 @@ const questionSchema = new mongoose.Schema(
         ref: "answers",
       },
     ],
+    likes: {
+      type: Number,
+      default: 0,
+    },
     feedbacks: [
       {
         type: mongoose.Schema.ObjectId,
