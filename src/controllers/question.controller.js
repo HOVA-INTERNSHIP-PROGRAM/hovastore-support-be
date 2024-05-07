@@ -202,3 +202,33 @@ export const like = async(req, res) =>{
     })
   }
 }
+
+
+
+// handle dislike about how question is being answered
+
+export const disLike = async(req, res) =>{
+  try {
+    const {questionId} = req.params;
+    const questionExisit = await Questions.findById(questionId);
+    if(!questionExisit){
+      return res.status(404).json({
+        status:"404",
+        message:"Question not found"
+      })
+    }
+    questionExisit.disLikes +=1;
+    const savedLike = await questionExisit.save();
+    return res.status(200).json({
+      status:"200",
+      message:"Your dis like added",
+      data: savedLike,
+    })
+  } catch (error) {
+    return res.status(500).json({
+      statu:"500",
+      message:"Failed to add dis like",
+      error:error.message,
+    })
+  }
+}
