@@ -869,6 +869,36 @@ const options = {
         },
       },
     },
+
+    // add likes to question
+    "/api/v1/questions/like/{questionId}": {
+      post: {
+        tags: ["Question"],
+        summary: "Like Question by ID",
+        description: "Enter ID to like how question is being answered.",
+        parameters: [
+          {
+            name: "questionId",
+            in: "path",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        responses: {
+          200: {
+            description: "Your like added",
+          },
+          404: {
+            description: "Question not found",
+          },
+          500: {
+            description: "Failed to like question",
+          },
+        },
+      },
+    },
     // Answer Documentation
     "/api/v1/answers": {
       get: {

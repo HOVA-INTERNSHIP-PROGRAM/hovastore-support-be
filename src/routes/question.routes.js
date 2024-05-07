@@ -7,6 +7,7 @@ import {
     viewAll,
     viewOneQuestion,
     deleteQuestion,
+    like,
  } from "../controllers/question.controller";
 
  const questionRoute = express.Router();
@@ -15,5 +16,6 @@ import {
  questionRoute.get("/:questionId", viewOneQuestion);
  questionRoute.put("/:questionId",Auth,fileUpload.single("question"),updateAQuestion);
  questionRoute.delete("/:questionId",Auth,fileUpload.single("question"),deleteQuestion);
+ questionRoute.post("/like/:questionId",like)
 
  export default questionRoute;
