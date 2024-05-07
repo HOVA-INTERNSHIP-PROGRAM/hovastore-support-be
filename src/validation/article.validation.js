@@ -1,5 +1,13 @@
 import Joi from "joi";
 
+const options = {
+    errors: {
+      wrap: {
+        label: ''
+      }
+    }
+  };
+
 // validation for adding new article
 const addArticleSchema = Joi.object({
     title: Joi.string().required().min(10).max(500),
@@ -14,10 +22,10 @@ const updateArticleSchema =Joi.object({
 //validating add article
 
 export const validateAddArticle = (articleData) =>{
-    return addArticleSchema.validate(articleData);
+    return addArticleSchema.validate(articleData, options);
 };
 
 // validating update article
 export const validateUpdateArticle = (articleData) =>{
-    return updateArticleSchema.validate(articleData);
+    return updateArticleSchema.validate(articleData, options);
 };
