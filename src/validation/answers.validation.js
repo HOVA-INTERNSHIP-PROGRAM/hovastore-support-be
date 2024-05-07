@@ -1,5 +1,13 @@
 import Joi from "joi";
 
+const options = {
+    errors: {
+      wrap: {
+        label: ''
+      }
+    }
+  };
+
 const createAnswerSchema = Joi.object({
     title: Joi.string(),
     image: Joi.string().optional(),
@@ -14,10 +22,10 @@ const updateAnswerSchema = Joi.object({
 
 // Function to validate Answer creation
 export const validateCreateAnswer = (answerData) => {
-    return createAnswerSchema.validate(answerData);
+    return createAnswerSchema.validate(answerData, options);
 }
 
 // Function to validate Answer creation
 export const validateUpdateAnswer = (answerData) => {
-    return updateAnswerSchema.validate(answerData);
+    return updateAnswerSchema.validate(answerData, options);
 }
