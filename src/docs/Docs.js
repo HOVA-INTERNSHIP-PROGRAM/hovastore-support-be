@@ -363,8 +363,7 @@ const options = {
         },
         responses: {
           200: {
-            description:
-              "Password Updated",
+            description: "Password Updated",
           },
           400: {
             description: "Bad Request",
@@ -899,6 +898,35 @@ const options = {
         },
       },
     },
+    // add likes to question
+    "/api/v1/questions/dislike/{questionId}": {
+      post: {
+        tags: ["Question"],
+        summary: "DisLike Question by ID",
+        description: "Enter ID to dislike how question is being answered.",
+        parameters: [
+          {
+            name: "questionId",
+            in: "path",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        responses: {
+          200: {
+            description: "Your dis like added",
+          },
+          404: {
+            description: "Question not found",
+          },
+          500: {
+            description: "Failed to dis like question",
+          },
+        },
+      },
+    },
     // Answer Documentation
     "/api/v1/answers": {
       get: {
@@ -1157,152 +1185,152 @@ const options = {
         },
       },
     },
-      "/api/v1/replies": {
-        get: {
-          tags: ["Reply"],
-          summary: "Retrieve All Replies",
-          description: "Retrieve All Replies",
-          responses: {
-            200: {
-              description: "All Replies are retrieved successfully",
-            },
-            500: {
-              description: "Internal Server Error",
-            },
+    "/api/v1/replies": {
+      get: {
+        tags: ["Reply"],
+        summary: "Retrieve All Replies",
+        description: "Retrieve All Replies",
+        responses: {
+          200: {
+            description: "All Replies are retrieved successfully",
+          },
+          500: {
+            description: "Internal Server Error",
           },
         },
       },
-      "/api/v1/replies/{feedbackId}/feedback": {
-        post: {
-          tags: ["Reply"],
-          summary: "Create Reply",
-          description: "Create Reply",
-          parameters: [
-            {
-              name: "feedbackId",
-              in: "path",
-              required: true,
-              schema: {
-                type: "string",
-              },
+    },
+    "/api/v1/replies/{feedbackId}/feedback": {
+      post: {
+        tags: ["Reply"],
+        summary: "Create Reply",
+        description: "Create Reply",
+        parameters: [
+          {
+            name: "feedbackId",
+            in: "path",
+            required: true,
+            schema: {
+              type: "string",
             },
-          ],
-          requestBody: {
-            content: {
-              "multipart/form-data": {
-                schema: {
-                  type: "object",
-                  properties: {
-                    message: {
-                      type: "string",
-                    },
+          },
+        ],
+        requestBody: {
+          content: {
+            "multipart/form-data": {
+              schema: {
+                type: "object",
+                properties: {
+                  message: {
+                    type: "string",
                   },
                 },
               },
             },
-            required: true,
           },
-          responses: {
-            201: {
-              description: "Reply Added",
-            },
-            400: {
-              description: "Bad Request",
-            },
-            500: {
-              description: "Internal Server Error",
-            },
+          required: true,
+        },
+        responses: {
+          201: {
+            description: "Reply Added",
+          },
+          400: {
+            description: "Bad Request",
+          },
+          500: {
+            description: "Internal Server Error",
           },
         },
       },
-      "/api/v1/replies/{id}": {
-        get: {
-          tags: ["Reply"],
-          summary: "Retrieve Reply by ID",
-          description: "Retrieve Reply by ID",
-          parameters: [
-            {
-              name: "id",
-              in: "path",
-              required: true,
-              schema: {
-                type: "string",
-              },
-            },
-          ],
-          responses: {
-            200: {
-              description: "A Reply is retrieved successfully",
-            },
-            500: {
-              description: "Internal Server Error",
+    },
+    "/api/v1/replies/{id}": {
+      get: {
+        tags: ["Reply"],
+        summary: "Retrieve Reply by ID",
+        description: "Retrieve Reply by ID",
+        parameters: [
+          {
+            name: "id",
+            in: "path",
+            required: true,
+            schema: {
+              type: "string",
             },
           },
+        ],
+        responses: {
+          200: {
+            description: "A Reply is retrieved successfully",
+          },
+          500: {
+            description: "Internal Server Error",
+          },
         },
-        put: {
-          tags: ["Reply"],
-          summary: "Update Reply",
-          description: "Update Reply",
-          parameters: [
-            {
-              name: "id",
-              in: "path",
-              required: true,
-              schema: {
-                type: "string",
-              },
+      },
+      put: {
+        tags: ["Reply"],
+        summary: "Update Reply",
+        description: "Update Reply",
+        parameters: [
+          {
+            name: "id",
+            in: "path",
+            required: true,
+            schema: {
+              type: "string",
             },
-          ],
-          requestBody: {
-            content: {
-              "multipart/form-data": {
-                schema: {
-                  type: "object",
-                  properties: {
-                    message: {
-                      type: "string",
-                    },
+          },
+        ],
+        requestBody: {
+          content: {
+            "multipart/form-data": {
+              schema: {
+                type: "object",
+                properties: {
+                  message: {
+                    type: "string",
                   },
                 },
               },
             },
+          },
+          required: true,
+        },
+        responses: {
+          201: {
+            description: "Reply Update",
+          },
+          400: {
+            description: "Bad Request",
+          },
+          500: {
+            description: "Internal Server Error",
+          },
+        },
+      },
+      delete: {
+        tags: ["Reply"],
+        summary: "Delete Reply by ID",
+        description: "Delete Reply by ID",
+        parameters: [
+          {
+            name: "id",
+            in: "path",
             required: true,
-          },
-          responses: {
-            201: {
-              description: "Reply Update",
-            },
-            400: {
-              description: "Bad Request",
-            },
-            500: {
-              description: "Internal Server Error",
+            schema: {
+              type: "string",
             },
           },
-        },
-        delete: {
-          tags: ["Reply"],
-          summary: "Delete Reply by ID",
-          description: "Delete Reply by ID",
-          parameters: [
-            {
-              name: "id",
-              in: "path",
-              required: true,
-              schema: {
-                type: "string",
-              },
-            },
-          ],
-          responses: {
-            200: {
-              description: "Reply Deleted",
-            },
-            500: {
-              description: "Internal Server Error",
-            },
+        ],
+        responses: {
+          200: {
+            description: "Reply Deleted",
+          },
+          500: {
+            description: "Internal Server Error",
           },
         },
+      },
     },
   },
 
