@@ -1,9 +1,12 @@
 import Category from "../models/categories.model";
 import * as categoryService from "../services/category.services";
+
 import {
   validateCreateCategory,
   validateUpdateCategory,
 } from "../validation/categories.validation";
+
+
 
 // controller to create a category
 export const createCategory = async (req, res) => {
@@ -19,7 +22,6 @@ export const createCategory = async (req, res) => {
     const categoryExist = await Category.findOne({ name: name });
 
     if (categoryExist) {
-      console.log(categoryExist);
       return res.status(403).json({
         status: "403",
         message: "Category already exists",
@@ -63,6 +65,8 @@ export const getCategories = async (req, res) => {
     });
   }
 };
+
+
 
 // controller to retrieve single category by id
 export const getOneCategory = async (req, res) => {

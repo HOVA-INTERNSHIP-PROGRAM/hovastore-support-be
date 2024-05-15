@@ -10,13 +10,13 @@ const options = {
 
 // validation for adding new question
 const addQuestionSchema = Joi.object({
-    question: Joi.string().required().min(20).max(500),
+    question: Joi.string().required().min(3).max(500),
 
 });
 
 //validation for updating question
 const updateQuestionSchema =Joi.object({
-    question: Joi.string().required().min(20).max(500).optional(),
+    question: Joi.string().required().min(3).max(500).optional(),
 }).or('question')
 
 //validating add question
